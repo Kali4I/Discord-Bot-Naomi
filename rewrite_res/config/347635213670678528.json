@@ -1,0 +1,6 @@
+﻿{
+    "cmd-prefix": "n!",
+    "mute-role": "mute",
+    "max-warns": 10,
+    "admins": []
+}
