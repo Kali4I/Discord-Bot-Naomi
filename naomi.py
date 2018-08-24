@@ -941,10 +941,10 @@ class Bot(discord.Client):
             if len(_members_with_role) >= 18:
                 _members_with_role = len(_members_with_role)
 
-            if _members_with_role.isnumeric():
-                return await self.channel.send(embed=discord.Embed(color=0x259EF2,
-                    title=f'Кол-во пользователей с ролью "{arg[1]}": {_members_with_role}',
-                    ).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
+                if _members_with_role.isnumeric():
+                    return await self.channel.send(embed=discord.Embed(color=0x259EF2,
+                        title=f'Кол-во пользователей с ролью "{arg[1]}": {_members_with_role}',
+                        ).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
 
             return await self.channel.send(embed=discord.Embed(color=0x259EF2,
                 title=f'Пользователи с ролью "{arg[1]}":',
