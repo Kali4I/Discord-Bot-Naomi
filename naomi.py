@@ -314,7 +314,7 @@ class Bot(discord.Client):
             help_list['page_me'].add_field(name='Версия Python; DiscordPy:', value=f'{python_version()}; {discord.__version__}', inline=False)
             help_list['page_me'].add_field(name='Разработчик:', value=(await client.application_info()).owner)
 
-
+            _git = discord.utils.get(client.emojis, name='__GitHub__')
 
             _buttons = {
                 '1⃣': '01',
@@ -322,7 +322,7 @@ class Bot(discord.Client):
                 '#⃣': 'odmen',
                 'ℹ': 'info',
                 '💾': 'serverinfo',
-                #'💻': 'systeminfo'
+                _git: 'github'
             }
 
             _user_ = self.author
@@ -359,8 +359,8 @@ class Bot(discord.Client):
                         await current.edit(embed=help_list['page_odmen'])
                     if control == 'serverinfo':
                         await current.edit(embed=help_list['page_guild'])
-                    # if control == 'systeminfo':
-                        # await current.edit(embed=help_list['page_system'])
+                    if control == 'github':
+                        await _user_.send('GitHub: https://github.com/AkiraSumato-01/Discord-Bot-Naomi')
 
                     try:
                         await current.remove_reaction(react, user)
