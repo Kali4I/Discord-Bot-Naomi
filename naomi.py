@@ -21,6 +21,8 @@ from PIL import ImageDraw
 
 default_prefix = 'n!'
 
+p = default_prefix
+
 react = {'suc': '✅', 'err': '❌', 'pen': '✏', 'pc': '🖥'}
 icons = {
     'successful': 'https://cdn.icon-icons.com/icons2/894/PNG/512/Tick_Mark_icon-icons.com_69146.png',
