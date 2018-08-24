@@ -78,7 +78,7 @@ class Data:
             '''Получить discord.User из str.'''
             _user = str(user).replace('<', '').replace('>', '').replace('@', '').replace('!', '').replace('&', '')
             if _user.isnumeric():
-                return guild.get_member(_user)
+                return guild.get_member(int(_user))
             else:
                 return discord.utils.get(guild.members, name=_user)
 
