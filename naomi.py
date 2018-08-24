@@ -269,7 +269,7 @@ class Bot(discord.Client):
 `{p}kick     `| Выгнать пользователя;
 '''
 
-            _description = f'[「Наш Discord-сервер」](https://discord.gg/ZQfNQ43) [「Пригласить меня」](https://discordapp.com/oauth2/authorize?client_id=452534618520944649&scope=bot&permissions=301296759)\nПрефикс на этом сервере: {p}'
+            _description = f'[「Наш Discord-сервер」](https://discord.gg/ZQfNQ43) [「Пригласить меня」](https://discordapp.com/oauth2/authorize?client_id=452534618520944649&scope=bot&permissions=301296759) [「GitHub」](https://github.com/AkiraSumato-01/Discord-Bot-Naomi)  \nПрефикс на этом сервере: {p}'
 
             help_list = {
                 'page_start': discord.Embed(color=0x00C6FF, title=':page_facing_up: Справочник по командам', description=_description),
@@ -314,15 +314,12 @@ class Bot(discord.Client):
             help_list['page_me'].add_field(name='Версия Python; DiscordPy:', value=f'{python_version()}; {discord.__version__}', inline=False)
             help_list['page_me'].add_field(name='Разработчик:', value=(await client.application_info()).owner)
 
-            _git = discord.utils.get(client.emojis, name='__GitHub__')
-
             _buttons = {
                 '1⃣': '01',
                 '2⃣': '02',
                 '#⃣': 'odmen',
                 'ℹ': 'info',
-                '💾': 'serverinfo',
-                _git: 'github'
+                '💾': 'serverinfo'
             }
 
             _user_ = self.author
@@ -349,8 +346,6 @@ class Bot(discord.Client):
                     except:
                         control = None
 
-                    print(control)
-
                     if control == '01':
                             await current.edit(embed=help_list['page_01'])
                     if control == '02':
@@ -361,8 +356,6 @@ class Bot(discord.Client):
                         await current.edit(embed=help_list['page_odmen'])
                     if control == 'serverinfo':
                         await current.edit(embed=help_list['page_guild'])
-                    if control == 'github':
-                        await _user_.send('GitHub: https://github.com/AkiraSumato-01/Discord-Bot-Naomi')
 
                     try:
                         await current.remove_reaction(react, user)
