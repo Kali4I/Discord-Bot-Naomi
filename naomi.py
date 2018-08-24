@@ -301,7 +301,6 @@ class Bot(discord.Client):
             help_list['page_guild'].add_field(name="Всего ролей:", value=f'{len(self.guild.roles)}', inline=True)
             help_list['page_guild'].add_field(name="Участников:", value=f'{self.guild.member_count}', inline=True)
             help_list['page_guild'].add_field(name="Ботов:", value=f'{_bot_count}', inline=True)
-            help_list['page_guild'].add_field(name="Роль по умолчанию:", value=f'{self.guild.default_role}', inline=True)
             help_list['page_guild'].add_field(name="Текстовых каналов:", value=f'{len(self.guild.text_channels)}', inline=True)
             help_list['page_guild'].add_field(name="Голосовых каналов:", value=f'{len(self.guild.voice_channels)}', inline=True)
 
