@@ -349,6 +349,8 @@ class Bot(discord.Client):
                     except:
                         control = None
 
+                    print(control)
+
                     if control == '01':
                             await current.edit(embed=help_list['page_01'])
                     if control == '02':
