@@ -1,6 +1,6 @@
 aiohttp
 git+https://github.com/Rapptz/discord.py@rewrite#egg=discord.py[voice]
-git+https://github.com/Nekos-life/nekos.py/archive/master.zip
+git+https://github.com/Nekos-life/nekos.py
 youtube_dl
 pillow
 psutil
