@@ -938,9 +938,9 @@ class Bot(discord.Client):
                 if _role in member.roles:
                     _members_with_role.append(member.name)
 
-            if len(_members_with_role) >= 18:
+            if len(_members_with_role) >= 20:
                 _members_with_role = len(_members_with_role)
-                
+
                 return await self.channel.send(embed=discord.Embed(color=0x259EF2,
                     title=f'Кол-во пользователей с ролью "{arg[1]}": {_members_with_role}',
                     ).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
