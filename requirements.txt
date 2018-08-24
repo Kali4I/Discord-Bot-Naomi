@@ -4,3 +4,4 @@ git+https://github.com/Nekos-life/nekos.py
 youtube_dl
 pillow
 psutil
+requests
