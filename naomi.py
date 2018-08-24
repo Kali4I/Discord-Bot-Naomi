@@ -283,6 +283,11 @@ class Bot(discord.Client):
                 'page_me': discord.Embed(color=0x00C6FF, title=':page_facing_up: Информация обо мне', description=_description),
             }
 
+            _bot_count = 0
+            for member in self.guild.members:
+                if member.bot:
+                    _bot_count += 1
+
             help_list['page_start'].set_footer(text=f'{p}help | Главная', icon_url=icons['using'])
             help_list['page_01'].set_footer(text=f'{p}help | Стр. #1', icon_url=icons['using'])
             help_list['page_02'].set_footer(text=f'{p}help | Стр. #2', icon_url=icons['using'])
@@ -295,7 +300,7 @@ class Bot(discord.Client):
             help_list['page_guild'].add_field(name="Владелец:", value=f'{self.guild.owner}', inline=True)
             help_list['page_guild'].add_field(name="Всего ролей:", value=f'{len(self.guild.roles)}', inline=True)
             help_list['page_guild'].add_field(name="Участников:", value=f'{self.guild.member_count}', inline=True)
-            help_list['page_guild'].add_field(name="Дата создания:", value=f'{self.guild.created_at}', inline=True)
+            help_list['page_guild'].add_field(name="Ботов:", value=f'{_bot_count}', inline=True)
             help_list['page_guild'].add_field(name="Роль по умолчанию:", value=f'{self.guild.default_role}', inline=True)
             help_list['page_guild'].add_field(name="Текстовых каналов:", value=f'{len(self.guild.text_channels)}', inline=True)
             help_list['page_guild'].add_field(name="Голосовых каналов:", value=f'{len(self.guild.voice_channels)}', inline=True)
@@ -913,6 +918,41 @@ class Bot(discord.Client):
                             pass
 
                 #client.loop.create_task(__menu_controller(message, menu))
+
+
+        if self.content.startswith(f'{p}roleusers'):
+            self.content = self.content.replace('  ', ' ')
+            arg = self.content.split(' ')
+            if arg[0] != f'{p}roleusers':
+                return False
+
+            try: arg[1]
+            except: 
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
+
+            _role = discord.utils.get(self.guild.roles, name=arg[1])
+            if _role is None:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'Мне не удалось найти роль "{arg[1]}..."', icon_url=icons['error']))
+
+            _members_with_role = []
+            for member in self.guild.members:
+                if _role in member.roles:
+                    _members_with_role.append(member.name)
+
+            if len(_members_with_role) >= 18:
+                _members_with_role = len(_members_with_role)
+
+            if _members_with_role.isnumeric():
+                return await self.channel.send(embed=discord.Embed(color=0x259EF2,
+                    title=f'Кол-во пользователей с ролью "{arg[1]}": {_members_with_role}',
+                    ).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
+
+            return await self.channel.send(embed=discord.Embed(color=0x259EF2,
+                title=f'Пользователи с ролью "{arg[1]}":',
+                description='\n'.join(_members_with_role)
+                ).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
+
+
 
 
         if self.content.startswith(f'{p}memegen'):
