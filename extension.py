@@ -35,7 +35,7 @@ class Data:
     class card:
         '''Загрузка информации о пользователе из его личной карточки / ее создание.'''
         @classmethod
-        def load(self, user: discord.User):
+        def load(self, user):
             '''Получить информацию из файла.'''
             try: card = json.load(io.open(f'rewrite_res/cards/{user.id}.json', 'r', encoding='utf-8-sig'))
             except:
@@ -51,14 +51,14 @@ class Data:
                 return card
 
         @classmethod
-        def upload(self, user: discord.User, content: dict):
+        def upload(self, user, content: dict):
             '''Записать информацию в файл.'''
             try: json.dump(content, io.open(f'rewrite_res/cards/{user.id}.json', 'w', encoding='utf-8-sig'), indent=4)
             except:
                 return False
             else:
                 return True
-    class user:
+    class member:
         '''Загрузка статистики пользователя (варны, мут).'''
         @classmethod
         def load(self, user, guild: discord.Guild):
@@ -75,7 +75,7 @@ class Data:
 
         @classmethod
         def get(self, user: str, guild: discord.Guild):
-            '''Получить discord.User из str.'''
+            '''Получить discord.Member.'''
             _user = str(user).replace('<', '').replace('>', '').replace('@', '').replace('!', '').replace('&', '')
             if _user.isnumeric():
                 return guild.get_member(int(_user))
@@ -83,7 +83,7 @@ class Data:
                 return discord.utils.get(guild.members, name=_user)
 
         @classmethod
-        def upload(self, user: discord.User, guild: discord.Guild, content: dict):
+        def upload(self, user, guild: discord.Guild, content: dict):
             '''Записать информацию в файл.'''
             try: json.dump(content, io.open(f'rewrite_res/users/{guild.id}/{user.id}.json', 'w', encoding='utf-8-sig'), indent=4)
             except:

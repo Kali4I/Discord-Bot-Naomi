@@ -188,7 +188,7 @@ class Bot(discord.Client):
                 return await self.channel.send(embed=discord.Embed(color=0xff00ff).set_footer(text=f'{p}cleanup [@пользователь] [кол-во сообщений]', icon_url=icons['using']))
 
             def is_member(m):
-                return m.author == Data.user.get(arg[1], self.guild)
+                return m.author == Data.member.get(arg[1], self.guild)
 
             return await self.channel.purge(limit=int(arg[2]), check=is_member)
 
@@ -404,7 +404,7 @@ class Bot(discord.Client):
                 try: arg[2]
                 except: _r = 'отсутствует'
                 else: _r = ' '.join(arg[2:])
-                _user = Data.user.get(arg[1], self.guild)
+                _user = Data.member.get(arg[1], self.guild)
                 await self.guild.ban(user=_user, reason=_r)
             except discord.errors.Forbidden:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Нет прав.', icon_url=icons['error']))
@@ -431,7 +431,7 @@ class Bot(discord.Client):
                 try: arg[2]
                 except: _r = 'отсутствует'
                 else: _r = ' '.join(arg[2:])
-                _user = self.guild.get_member(Data.user.load(arg[1], self.guild).id)
+                _user = self.guild.get_member(Data.member.load(arg[1], self.guild).id)
                 await _user.unban(user=_user, reason=_r)
             except discord.errors.Forbidden:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Нет прав.', icon_url=icons['error']))
@@ -490,7 +490,7 @@ class Bot(discord.Client):
                 return await self.channel.send(embed=c)
             else:
                 try:
-                    _user = Data.user.get(arg[1], self.guild)
+                    _user = Data.member.get(arg[1], self.guild)
                     data = Data.card.load(_user)
                 except:
                     if arg[1].lower() == 'set':
@@ -611,7 +611,7 @@ class Bot(discord.Client):
                 a.set_footer(text=f'{p}avatar [@пользователь]', icon_url=icons['using'])
                 return await self.channel.send(embed=a)
             else:
-                _user = Data.user.get(arg[1], self.guild)
+                _user = Data.member.get(arg[1], self.guild)
                 if _user is None:
                     return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Некорректно введен никнейм.', icon_url=icons['error']))
                 if _user.avatar_url is None or _user.avatar_url == '' or _user.avatar_url == ' ':
@@ -658,12 +658,12 @@ class Bot(discord.Client):
             try: _r = ' '.join(arg[2:])
             except: _r = 'отсутствует'
 
-            _user = Data.user.get(arg[1], self.guild)
-            _data = Data.user.load(_user, self.guild)
+            _user = Data.member.get(arg[1], self.guild)
+            _data = Data.member.load(_user, self.guild)
 
             _data['warn_count'] += 1
 
-            try: Data.user.upload(_user, self.guild, _data)
+            try: Data.member.upload(_user, self.guild, _data)
             except Exception as e:
                 await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'Не удалось:\n{e}', icon_url=icons['error']))
             else:
@@ -689,15 +689,15 @@ class Bot(discord.Client):
             except:
                 return await self.channel.send(embed=discord.Embed(color=0xD587F2).set_footer(text=f'{p}unwarn [@пользователь]', icon_url=icons['using']))
 
-            _user = Data.user.get(arg[1], self.guild)
-            _data = Data.user.load(_user, self.guild)
+            _user = Data.member.get(arg[1], self.guild)
+            _data = Data.member.load(_user, self.guild)
 
             if _data['warn_count'] <= 0:
                 return await self.channel.send(embed=discord.Embed(color=0x00ff00, description=f'{self.author.mention} снял с {_user.mention} 0 предупреждений, \nпотому-что у {_user.mention} они и так отсутствуют.').set_footer(text=f'{p}unwarn [@пользователь]', icon_url=icons['using']))
 
             _data['warn_count'] -= 1
 
-            try: Data.user.upload(_user, self.guild, _data)
+            try: Data.member.upload(_user, self.guild, _data)
             except Exception as e:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'Не удалось:\n{e}', icon_url=icons['error']))
             else:
@@ -721,7 +721,7 @@ class Bot(discord.Client):
             except: _r = 'отсутствует'
 
             try:
-                _user = Data.user.get(arg[1], self.guild)
+                _user = Data.member.get(arg[1], self.guild)
 
                 await _user.kick(reason=_r)
                 return await self.channel.send(embed=discord.Embed(color=0x00ff00, description=f'Пользователь {_user} был кикнут.\nПричина: {_r}.').set_footer(text=f'{p}kick [@пользователь] [причина]', icon_url=icons['using']))
@@ -834,7 +834,7 @@ class Bot(discord.Client):
 
                         print(_msg.content)
 
-                        _username = Data.user.get(_msg.content, self.guild)
+                        _username = Data.member.get(_msg.content, self.guild)
 
                         await self.channel.send(f'Введено: {_msg.content}\nПолучен discord.Member пользователя {_username}\n\nРам, вали в osu! если выше `None`.')
 
@@ -852,7 +852,7 @@ class Bot(discord.Client):
 
                         _msg = await self.wait_for('message', check=check)
 
-                        _username = Data.user.get(_msg.content, self.guild)
+                        _username = Data.member.get(_msg.content, self.guild)
 
                         try: data['admins'].remove(_username.id)
                         except ValueError: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Данный пользователь отсутствует в списке Администраторов.', icon_url=icons['error']))
