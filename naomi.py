@@ -38,9 +38,13 @@ class Bot(discord.Client):
         async def __presence():
             _sleeping = 12
             while not self.is_closed():
-                await self.change_presence(game=discord.Game(name=f'{len(self.guilds)} серверов!', type=1))
+                await client.change_presence(activity=discord.Streaming(name=f'{len(self.guilds)} серверов!', url='https://www.twitch.tv/%none%'))
+                # await self.change_presence(game=discord.Game(name=f'{len(self.guilds)} серверов!', type=1))
                 await asyncio.sleep(_sleeping)
-                await self.change_presence(game=discord.Game(name=f'{len(self.users)} пользователей!', type=1))
+                await client.change_presence(activity=discord.Streaming(name=f'{len(self.users)} пользователей!', url='https://www.twitch.tv/%none%'))
+                await asyncio.sleep(_sleeping)
+                # await self.change_presence(game=discord.Game(name=f'{len(self.users)} пользователей!', type=1))
+                await client.change_presence(activity=discord.Streaming(name=f'{p}help', url='https://www.twitch.tv/%none%'))
                 await asyncio.sleep(_sleeping)
         self.loop.create_task(__presence())
 
@@ -247,20 +251,18 @@ class Bot(discord.Client):
 `{p}neko     `| [NSFW] | Аниме изображения;
 `{p}purge    `| Удаление сообщений;
 `{p}calc     `| Калькулятор;
-`{p}card     `| Карточка пользователя;
 `{p}avatar   `| Аватар пользователя;
-`{p}osu      `| Статистика игрока osu!;
 '''
             help_f02 = f'''
-`{p}config   `| Настройка бота на этом сервере;
+`{p}osu      `| Статистика игрока osu!;
 `{p}status   `| Статистика бота;
 '''
             help_adm = f'''
 
 `{p}warn     `| Предупредить пользователя;
-`{p}unwarn   `| Убрать предупреждение; :x:
+`{p}unwarn   `| Убрать предупреждение;
 `{p}ban      `| Забанить пользователя;
-`{p}unban    `| Разбанить пользователя; :x:
+`{p}unban    `| Разбанить пользователя;
 `{p}banlist  `| Банлист сервера;
 `{p}kick     `| Выгнать пользователя;
 '''
@@ -318,7 +320,7 @@ class Bot(discord.Client):
                 '#⃣': 'odmen',
                 'ℹ': 'info',
                 '💾': 'serverinfo',
-                '💻': 'systeminfo'
+                #'💻': 'systeminfo'
             }
 
             _user_ = self.author
@@ -355,8 +357,8 @@ class Bot(discord.Client):
                         await current.edit(embed=help_list['page_odmen'])
                     if control == 'serverinfo':
                         await current.edit(embed=help_list['page_guild'])
-                    if control == 'systeminfo':
-                        await current.edit(embed=help_list['page_system'])
+                    # if control == 'systeminfo':
+                        # await current.edit(embed=help_list['page_system'])
 
                     try:
                         await current.remove_reaction(react, user)
@@ -415,6 +417,33 @@ class Bot(discord.Client):
                 return await self.channel.send(embed=discord.Embed(color=0x00ff00, description=f'Пользователь {_user} забанен!\nПричина: {_r}.').set_footer(text=f'{p}ban [@пользователь] [причина]', icon_url=icons['using']))
 
 
+        if self.content.startswith(f'{p}unban'):
+            self.content = self.content.replace('  ', ' ')
+            arg = self.content.split(' ')
+            if arg[0] != f'{p}unban':
+                return False
+
+            if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
+            if not self.permissions.ban_members and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+
+            try: arg[1]
+            except:
+                return await self.channel.send(embed=discord.Embed(color=0xD587F2).set_footer(text=f'{p}ban [@пользователь] [причина]', icon_url=icons['using']))
+
+            try:
+                try: arg[2]
+                except: _r = 'отсутствует'
+                else: _r = ' '.join(arg[2:])
+                _user = self.guild.get_member(Data.user.load(arg[1], self.guild).id)
+                await _user.unban(user=_user, reason=_r)
+            except discord.errors.Forbidden:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Нет прав.', icon_url=icons['error']))
+            except Exception as e:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=e, icon_url=icons['error']))
+            else:
+                return await self.channel.send(embed=discord.Embed(color=0x00ff00, description=f'Пользователь {_user} забанен!\nПричина: {_r}.').set_footer(text=f'{p}unban [@пользователь] [причина]', icon_url=icons['using']))
+
+
         if self.content.startswith(f'{p}banlist'):
             self.content = self.content.replace('  ', ' ')
             arg = self.content.split(' ')
@@ -439,6 +468,9 @@ class Bot(discord.Client):
 
 
         if self.content.startswith(f'{p}card'):
+
+            return False # Команда временно отключена
+
             self.content = self.content.replace('  ', ' ')
             arg = self.content.split(' ')
             if arg[0] != f'{p}card':
@@ -743,6 +775,9 @@ class Bot(discord.Client):
 
 
         if self.content.startswith(f'{p}config'):
+
+            return False # Временно команда отключена.
+
             self.content = self.content.replace('  ', ' ')
             arg = self.content.split(' ')
             if arg[0] != f'{p}config':
