@@ -918,4 +918,4 @@ class Bot(discord.Client):
 
 if __name__ == '__main__':
     client = Bot()
-    client.run('NDUyNTM0NjE4NTIwOTQ0NjQ5.Dj5O6A.F3tK1VFU8PHHU4MEF7bR_VJRMh0', reconnect=True)
+    client.run('Hello World', reconnect=True)
