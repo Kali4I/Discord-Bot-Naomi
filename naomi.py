@@ -918,4 +918,5 @@ class Bot(discord.Client):
 
 if __name__ == '__main__':
     client = Bot()
-    client.run('Hello World', reconnect=True)
+    # client.run('Hello World', reconnect=True)
+    client.run(os.getenv('TOKEN'), reconnect=True)
