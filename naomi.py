@@ -7,7 +7,7 @@ import textwrap
 import discord
 import asyncio
 import psutil
-import nekos # Неко-девочки1!!1!
+import nekos
 import sys
 import os
 import io
