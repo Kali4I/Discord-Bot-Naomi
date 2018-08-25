@@ -972,7 +972,7 @@ class Bot(discord.Client):
 
             async def __menu_controller(current, help_list, _dn):
                 for react in _dn:
-                    await current.add_reaction(react)
+                    await current.add_reaction(_dn.get(react))
 
                 def check(r, u):
                     if not current:
