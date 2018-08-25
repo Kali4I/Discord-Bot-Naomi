@@ -54,15 +54,6 @@ class Bot(discord.Client):
                 await asyncio.sleep(_sleeping)
         self.loop.create_task(__presence())
 
-
-    async def on_message_delete(self, m):
-        guild_ = m.channel.guild.id
-        if guild_ == 454304820434698250:
-            return await m.channel.send(f'{m.author} удалил сообщение \"{" ".join(m.content)}\"')
-        else:
-            return log(f'Вот такие дела. {guild_}')
-
-
     async def on_error(event, *args, **kwargs):
         warn(str(args))
         message = args[1]
@@ -284,8 +275,6 @@ class Bot(discord.Client):
 `{p}status   `| Статистика бота;
 '''
             help_adm = f'''
-`{p}warn     `| Предупредить пользователя;
-`{p}unwarn   `| Убрать предупреждение;
 `{p}ban      `| Забанить пользователя;
 `{p}unban    `| Разбанить пользователя;
 `{p}banlist  `| Банлист сервера;
@@ -675,6 +664,8 @@ class Bot(discord.Client):
             if arg[0] != f'{p}warn':
                 return False
 
+            return False # временно отключено
+
             if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             if not self.permissions.ban_members and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
 
@@ -708,6 +699,8 @@ class Bot(discord.Client):
             arg = self.content.split(' ')
             if arg[0] != f'{p}unwarn':
                 return False
+
+            return False # временно отключено
 
             if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             if not self.permissions.ban_members and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
@@ -954,6 +947,59 @@ class Bot(discord.Client):
                             pass
 
                 #client.loop.create_task(__menu_controller(message, menu))
+
+
+        if self.content.startswith(f'{p}tictactoe'):
+            self.content = self.content.replace('  ', ' ')
+            arg = self.content.split(' ')
+            if arg[0] != f'{p}tictactoe':
+                return False
+
+            s = {
+                '❌': 'x',
+                '⭕': 'o'
+            }
+
+            _dn = {'1': '1⃣', '2': '2⃣', '3': '3⃣', '4': '4⃣', '5': '5⃣', '6': '6⃣', '7': '7⃣', '8': '8⃣', '9': '9⃣'}
+            n = _dn
+
+            d = "{n['1']} {n['2']} {n['3']} \n{n['4']} {n['5']} {n['6']}\n{n['7']} {n['8']} {n['9']}"
+
+            game_board = await self.channel.send('❌ ❌ ❌\n❌ ❌ ❌\n❌ ❌ ❌')
+
+            for r in _dn:
+                await game_board.add_reaction(r)
+
+            async def __menu_controller(current, help_list, _dn):
+                for react in _dn:
+                    await current.add_reaction(react)
+
+                def check(r, u):
+                    if not current:
+                        return False
+                    elif str(r) not in _dn.keys():
+                        return False
+                    elif u.id != _user_.id or r.message.id != current.id:
+                        return False
+                    return True
+
+                while current:
+                    react, user = await self.wait_for('reaction_add', check=check)
+                    try:
+                        control = _dn.get(str(react))
+                    except:
+                        control = None
+
+                    try:
+                        n[f'{control}'] = s['x']
+                    except:
+                        pass
+
+                    await game_board.edit(content=d)
+                        
+            self.loop.create_task(__menu_controller(_current, help_list, _buttons))
+
+
 
 
         if self.content.startswith(f'{p}roleusers'):
