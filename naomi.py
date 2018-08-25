@@ -980,7 +980,11 @@ class Bot(discord.Client):
                     print(r)
                     print(u)
                     if u.id != _user_.id or r.message.id != game_board.id:
-                        print('u.id != _user_.id or r.message.id != game_board.id')
+                        error('u.id != _user_.id or r.message.id != game_board.id')
+                        if u.id != _user_.id:
+                            error('u.id != _user_.id')
+                        if r.message.id != game_board.id:
+                            error('r.message.id != game_board.id')
                         return False
                     return True
 
