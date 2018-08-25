@@ -983,6 +983,7 @@ class Bot(discord.Client):
                         error('u.id != _user_.id or r.message.id != game_board.id')
                         if u.id != _user_.id:
                             error('u.id != _user_.id')
+                            warn(f'u: {u} | _user_: {_user_}')
                         if r.message.id != game_board.id:
                             error('r.message.id != game_board.id')
                         return False
