@@ -971,14 +971,6 @@ class Bot(discord.Client):
 
 
 
-        if self.content.startswith(f'n!$test'):
-            await self.channel.send('Вызываем исключение "ZeroDivisionError", попытавшись решить "5 / 0"...')
-            a = 5 / 0
-            print(a)
-            return True
-
-
-
         if self.content.startswith(f'{p}memegen'):
 
             return False # временно отключено.
