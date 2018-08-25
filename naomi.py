@@ -55,6 +55,10 @@ class Bot(discord.Client):
         self.loop.create_task(__presence())
 
 
+    async def on_message_delete(m):
+        if guild.id == 454304820434698250:
+            return await m.channel.send(f'{m.author} удалил сообщение \"{" ".join(m.content)}\"')
+
     async def on_error(event, *args, **kwargs):
         print(args)
         message = args[1]
