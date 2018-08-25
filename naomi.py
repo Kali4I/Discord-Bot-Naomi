@@ -8,6 +8,7 @@ import discord
 import asyncio
 import psutil
 import nekos
+import time
 import sys
 import os
 import io
@@ -40,16 +41,15 @@ class Bot(discord.Client):
 
     async def on_ready(self):
         log(f'Подключение успешно осуществлено!\nВ сети: {self.user}')
+        self.time_start = time.time()
 
         async def __presence():
             _sleeping = 12
             while not self.is_closed():
                 await client.change_presence(activity=discord.Streaming(name=f'{len(self.guilds)} серверов!', url='https://www.twitch.tv/%none%'))
-                # await self.change_presence(game=discord.Game(name=f'{len(self.guilds)} серверов!', type=1))
                 await asyncio.sleep(_sleeping)
                 await client.change_presence(activity=discord.Streaming(name=f'{len(self.users)} пользователей!', url='https://www.twitch.tv/%none%'))
                 await asyncio.sleep(_sleeping)
-                # await self.change_presence(game=discord.Game(name=f'{len(self.users)} пользователей!', type=1))
                 await client.change_presence(activity=discord.Streaming(name=f'{p}help', url='https://www.twitch.tv/%none%'))
                 await asyncio.sleep(_sleeping)
         self.loop.create_task(__presence())
@@ -61,6 +61,7 @@ class Bot(discord.Client):
             return await m.channel.send(f'{m.author} удалил сообщение \"{" ".join(m.content)}\"')
         else:
             return log(f'Вот такие дела. {guild_}')
+
 
     async def on_error(event, *args, **kwargs):
         warn(str(args))
@@ -782,6 +783,16 @@ class Bot(discord.Client):
 
             if not self.permissions.manage_guild and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
 
+            time_in_seconds = time.time() - self.time_start
+
+            time_in_minutes = round(time_in_seconds / 60)
+            time_in_hours = round(time_in_minutes / 60)
+
+            if time_in_minutes >= 1:
+                _time_value = time_in_minutes
+            if time_in_hours >= 1:
+                _time_value = time_in_hours
+
             _status = f'''
 Платформа: {platform.system()};
 Имя ОС: {os.name};
@@ -791,6 +802,8 @@ class Bot(discord.Client):
 Загрузка ЦП: {psutil.cpu_percent()}%;
 Загрузка ЦП (система): {psutil.cpu_times_percent().system}%
 Кол-во ядер/потоков ЦП: {psutil.cpu_count()};
+
+С момента запуска прошло {_time_value}
 '''
 
             return await self.channel.send(embed=discord.Embed(title='Статистика:', description=_status).set_footer(text=f'{p}status', icon_url=icons['using']))
