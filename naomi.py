@@ -977,7 +977,7 @@ class Bot(discord.Client):
                 def check(r, u):
                     print(r)
                     print(u)
-                    elif str(r) not in _dn.keys():
+                    if str(r) not in _dn.keys():
                         print('str(r) not in _dn.keys()')
                         return False
                     elif u.id != _user_.id or r.message.id != game_board.id:
