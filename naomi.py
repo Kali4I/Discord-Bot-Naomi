@@ -60,11 +60,11 @@ class Bot(discord.Client):
         self.loop.create_task(__presence())
 
 
-    @client.event
     async def on_error(event, *args, **kwargs):
         message = args[0]
-        logging.warning(traceback.format_exc())
-        await xzbot.send_message(message.channel, "You caused an error!")
+        _exception = traceback.format_exc()
+        dev = discord.utils.get(client.users, id=297421244402368522)
+        await dev.send(f"Произошло исключение...\n{_exception}")
 
 
     async def on_message(self, message):
