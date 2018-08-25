@@ -965,7 +965,7 @@ class Bot(discord.Client):
 
             d = "{n['1']} {n['2']} {n['3']} \n{n['4']} {n['5']} {n['6']}\n{n['7']} {n['8']} {n['9']}"
 
-            game_board = await self.channel.send('❌ ❌ ❌\n❌ ❌ ❌\n❌ ❌ ❌')
+            game_board = await self.channel.send(d)
 
             _user_ = self.author
 
