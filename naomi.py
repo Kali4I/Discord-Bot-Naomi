@@ -963,7 +963,7 @@ class Bot(discord.Client):
             _dn = {'1': '1⃣', '2': '2⃣', '3': '3⃣', '4': '4⃣', '5': '5⃣', '6': '6⃣', '7': '7⃣', '8': '8⃣', '9': '9⃣'}
             n = _dn
 
-            d = "{n['1']} {n['2']} {n['3']} \n{n['4']} {n['5']} {n['6']}\n{n['7']} {n['8']} {n['9']}"
+            d = f"{n['1']} {n['2']} {n['3']} \n{n['4']} {n['5']} {n['6']}\n{n['7']} {n['8']} {n['9']}"
 
             game_board = await self.channel.send(d)
 
@@ -988,6 +988,11 @@ class Bot(discord.Client):
                         control = _dn.get(str(react))
                     except:
                         control = None
+
+                    if control is not None:
+                        await self.channel.send(f'{react} - {control}')
+                    else:
+                        await self.channel.send('None, нафиг')
 
                     try:
                         n[f'{control}'] = s['x']
