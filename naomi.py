@@ -277,6 +277,7 @@ class Bot(discord.Client):
 `{p}calc     `| Калькулятор;
 `{p}avatar   `| Аватар пользователя;
 `{p}myname   `| Сменить Ваш никнейм;
+`{p}roleusers`| Пользователи с ролью;
 '''
             help_f02 = f'''
 `{p}osu      `| Статистика игрока osu!;
@@ -965,7 +966,7 @@ class Bot(discord.Client):
             except: 
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
 
-            _role = discord.utils.get(self.guild.roles, name=arg[1:])
+            _role = discord.utils.get(self.guild.roles, name=' '.join(arg[1:]))
             if _role is None:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'Мне не удалось найти роль "{arg[1]}..."', icon_url=icons['error']))
 
