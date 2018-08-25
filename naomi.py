@@ -974,12 +974,11 @@ class Bot(discord.Client):
                 for react in _dn:
                     await game_board.add_reaction(_dn.get(react))
 
+                await asyncio.sleep(1.0)
+
                 def check(r, u):
                     print(r)
                     print(u)
-                    if str(r) not in _dn.keys():
-                        print('str(r) not in _dn.keys()')
-                        return False
                     elif u.id != _user_.id or r.message.id != game_board.id:
                         print('u.id != _user_.id or r.message.id != game_board.id')
                         return False
