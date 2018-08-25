@@ -56,7 +56,7 @@ class Bot(discord.Client):
 
 
     async def on_message_delete(self, m):
-        guild__ = m.channel.guild.id
+        guild_ = m.channel.guild.id
         if guild_ == 454304820434698250:
             return await m.channel.send(f'{m.author} удалил сообщение \"{" ".join(m.content)}\"')
         else:
