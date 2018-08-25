@@ -967,23 +967,22 @@ class Bot(discord.Client):
 
             game_board = await self.channel.send('❌ ❌ ❌\n❌ ❌ ❌\n❌ ❌ ❌')
 
-            for r in _dn:
-                await game_board.add_reaction(r)
+            _user_ = self.author
 
-            async def __menu_controller(current, help_list, _dn):
+            async def __menu_controller():
                 for react in _dn:
-                    await current.add_reaction(_dn.get(react))
+                    await game_board.add_reaction(_dn.get(react))
 
                 def check(r, u):
-                    if not current:
+                    if not game_board:
                         return False
                     elif str(r) not in _dn.keys():
                         return False
-                    elif u.id != _user_.id or r.message.id != current.id:
+                    elif u.id != _user_.id or r.message.id != game_board.id:
                         return False
                     return True
 
-                while current:
+                while game_board:
                     react, user = await self.wait_for('reaction_add', check=check)
                     try:
                         control = _dn.get(str(react))
@@ -997,7 +996,7 @@ class Bot(discord.Client):
 
                     await game_board.edit(content=d)
                         
-            self.loop.create_task(__menu_controller(_current, help_list, _buttons))
+            self.loop.create_task(__menu_controller())
 
 
 
