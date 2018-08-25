@@ -60,6 +60,13 @@ class Bot(discord.Client):
         self.loop.create_task(__presence())
 
 
+    @client.event
+    async def on_error(event, *args, **kwargs):
+        message = args[0]
+        logging.warning(traceback.format_exc())
+        await xzbot.send_message(message.channel, "You caused an error!")
+
+
     async def on_message(self, message):
         self.message = message
         self.channel = message.channel
@@ -960,6 +967,13 @@ class Bot(discord.Client):
                 description='\n'.join(_members_with_role)
                 ).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
 
+
+
+        if self.content.startswith(f'n!$test'):
+            await self.channel.send('Вызываем исключение "ZeroDivisionError", попытавшись решить "5 / 0"...')
+            a = 5 / 0
+            print(a)
+            return True
 
 
 
