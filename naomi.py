@@ -968,12 +968,15 @@ class Bot(discord.Client):
             game_board = await self.channel.send(d)
 
             _user_ = self.author
+            _chan_ = self.channel
 
             async def __menu_controller():
                 for react in _dn:
                     await game_board.add_reaction(_dn.get(react))
 
                 def check(r, u):
+                    print(r)
+                    print(u)
                     if not game_board:
                         return False
                     elif str(r) not in _dn.keys():
@@ -984,15 +987,17 @@ class Bot(discord.Client):
 
                 while game_board:
                     react, user = await self.wait_for('reaction_add', check=check)
+                    print(f'REACT: {react}')
+                    print(f'USER: {user}')
                     try:
                         control = _dn.get(str(react))
                     except:
                         control = None
 
                     if control is not None:
-                        await self.channel.send(f'{react} - {control}')
+                        await _chan_.send(f'{react} - {control}')
                     else:
-                        await self.channel.send('None, нафиг')
+                        await _chan_.send('None, нафиг')
 
                     try:
                         n[f'{control}'] = s['x']
