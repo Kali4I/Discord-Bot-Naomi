@@ -966,7 +966,9 @@ class Bot(discord.Client):
             except: 
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
 
-            _role = discord.utils.get(self.guild.roles, name=' '.join(arg[1:]))
+            _rolename = ' '.join(arg[1:])
+
+            _role = discord.utils.get(self.guild.roles, name=_rolename)
             if _role is None:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'Мне не удалось найти роль "{arg[1]}..."', icon_url=icons['error']))
 
@@ -979,7 +981,7 @@ class Bot(discord.Client):
                 _members_with_role = len(_members_with_role)
 
                 return await self.channel.send(embed=discord.Embed(color=0x259EF2,
-                    title=f'Кол-во пользователей с ролью "{arg[1]}": {_members_with_role}',
+                    title=f'Кол-во пользователей с ролью "{_rolename}": {_members_with_role}',
                     ).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
 
             return await self.channel.send(embed=discord.Embed(color=0x259EF2,
