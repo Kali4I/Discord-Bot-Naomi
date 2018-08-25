@@ -62,10 +62,10 @@ class Bot(discord.Client):
 
     async def on_error(event, *args, **kwargs):
         print(args)
-        message = args[0]
+        message = args[1]
         _exception = traceback.format_exc()
         dev = discord.utils.get(client.users, id=297421244402368522)
-        #await message.channel.send('Во время выполнения произошла ошибка.\nНе стоит беспокоиться, она отправлена разработчику и вскоре он ею займется!')
+        await message.channel.send('Во время выполнения произошла ошибка.\nНе стоит беспокоиться, она отправлена разработчику и вскоре он ею займется!')
         return await dev.send(f"Произошло исключение...\n```python\n{_exception}```")
 
 
