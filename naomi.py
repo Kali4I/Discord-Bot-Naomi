@@ -21,6 +21,15 @@ from PIL import ImageDraw
 
 default_prefix = 'n!'
 
+default_config = {
+    'cmd-prefix': 'n!',
+    'mute-role': 'mute',
+    'max-warns': 10,
+    'admins': [
+        297421244402368522
+    ]
+}
+
 p = default_prefix
 
 react = {'suc': '✅', 'err': '❌', 'pen': '✏', 'pc': '🖥'}
@@ -75,7 +84,8 @@ class Bot(discord.Client):
         except:
             pass
         try:
-            self._bot = Data.config.load(self.guild)
+            # self._bot = Data.config.load(self.guild)
+            self._bot = default_config
         except:
             p = default_prefix
         else:
@@ -954,6 +964,9 @@ class Bot(discord.Client):
 
 
         if self.content.startswith(f'{p}memegen'):
+
+            return False # временно отключено.
+
             self.content = self.content.replace('  ', ' ')
             arg = self.content.split(' ')
             if arg[0] != f'{p}memegen':
@@ -988,5 +1001,4 @@ class Bot(discord.Client):
 
 if __name__ == '__main__':
     client = Bot()
-    # client.run('Hello World', reconnect=True)
     client.run(os.getenv('TOKEN'), reconnect=True)
