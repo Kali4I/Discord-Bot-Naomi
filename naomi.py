@@ -985,7 +985,7 @@ class Bot(discord.Client):
                     ).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
 
             return await self.channel.send(embed=discord.Embed(color=0x259EF2,
-                title=f'Пользователи с ролью "{arg[1]}":',
+                title=f'Пользователи с ролью "{_rolename}":',
                 description='\n'.join(_members_with_role)
                 ).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
 
