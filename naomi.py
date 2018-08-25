@@ -13,11 +13,6 @@ import os
 import io
 
 from extension import *
-from memegen import make_meme
-
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw
 
 default_prefix = 'n!'
 
@@ -273,13 +268,13 @@ class Bot(discord.Client):
 `{p}purge    `| Удаление сообщений;
 `{p}calc     `| Калькулятор;
 `{p}avatar   `| Аватар пользователя;
+`{p}myname   `| Сменить Ваш никнейм;
 '''
             help_f02 = f'''
 `{p}osu      `| Статистика игрока osu!;
 `{p}status   `| Статистика бота;
 '''
             help_adm = f'''
-
 `{p}warn     `| Предупредить пользователя;
 `{p}unwarn   `| Убрать предупреждение;
 `{p}ban      `| Забанить пользователя;
@@ -968,41 +963,6 @@ class Bot(discord.Client):
                 title=f'Пользователи с ролью "{arg[1]}":',
                 description='\n'.join(_members_with_role)
                 ).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
-
-
-
-        if self.content.startswith(f'{p}memegen'):
-
-            return False # временно отключено.
-
-            self.content = self.content.replace('  ', ' ')
-            arg = self.content.split(' ')
-            if arg[0] != f'{p}memegen':
-                return False
-
-            _templates = [
-                'successkid',
-                'standard',
-                'sap'
-            ]
-
-            _meme_image = choice(_templates)
-
-            _full_text = ' '.join(arg[1:])
-
-            make_meme(topString=_full_text, 
-                bottomString=' ', 
-                filename=f'memes/templates/{_meme_image}.jpg', 
-                outputName=str(self.guild.id))
-
-            # await asyncio.sleep(0.6)
-
-            try:
-                await self.channel.send(file=discord.File(fp=f'memes/guilds/{self.guild.id}.jpg'))
-            except:
-                return self.channel.send('Произошла ошибка...\nПросто попробуйте еще раз!')
-
-            return os.remove(f'memes/guilds/{self.guild.id}.jpg')
 
 
 
