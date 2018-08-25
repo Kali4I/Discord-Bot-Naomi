@@ -789,11 +789,11 @@ class Bot(discord.Client):
             time_in_hours = round(time_in_minutes / 60)
 
             if time_in_minutes >= 1:
-                _time_value = time_in_minutes
+                _time_value = f'{time_in_minutes} минут.'
             if time_in_hours >= 1:
-                _time_value = time_in_hours
+                _time_value = f'{time_in_hours} часов.'
             else:
-                _time_value = time_in_seconds
+                _time_value = f'{round(time_in_seconds)} секунд.'
 
             _status = f'''
 Платформа: {platform.system()};
