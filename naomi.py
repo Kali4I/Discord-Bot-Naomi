@@ -792,6 +792,8 @@ class Bot(discord.Client):
                 _time_value = time_in_minutes
             if time_in_hours >= 1:
                 _time_value = time_in_hours
+            else:
+                _time_value = time_in_seconds
 
             _status = f'''
 Платформа: {platform.system()};
