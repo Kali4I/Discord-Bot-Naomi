@@ -457,25 +457,27 @@ class Bot(discord.Client):
 
             try: arg[1]
             except:
-                return await self.channel.send(embed=discord.Embed(color=0xD587F2).set_footer(text=f'{p}unban [@пользователь] [причина]', icon_url=icons['using']))
+                return await self.channel.send(embed=discord.Embed(color=0xD587F2).set_footer(text=f'{p}unban [никнейм пользователя]', icon_url=icons['using']))
 
             try:
-                try: arg[2]
-                except: _r = 'отсутствует'
-                else: _r = ' '.join(arg[2:])
-                _user = discord.utils.get(
-                    client.users, 
-                    id=Data.member.get(
-                        arg[1], self.guild
-                    ).id
-                )
-                await _user.unban(user=_user, reason=_r)
+
+                _bans = await self.guild.bans()
+                _user = None
+
+                # TODO: починить эту хрень
+
+                for banned_user in _bans:
+                    if banned_user.user.name == arg[1:]
+                        await banned_user.unban(user=_user, reason=_r)
+                        _user = banned_user
+
+
             except discord.errors.Forbidden:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
             except Exception as e:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=e, icon_url=icons['error']))
             else:
-                return await self.channel.send(embed=discord.Embed(color=0x00ff00, description=f'Пользователь {_user.mention} забанен!\nПричина: {_r}.').set_footer(text=f'{p}unban [@пользователь] [причина]', icon_url=icons['using']))
+                return await self.channel.send(embed=discord.Embed(color=0x00ff00, description=f'Пользователь {_user.mention} разбанен.').set_footer(text=f'{p}unban [никнейм пользователя]', icon_url=icons['using']))
 
 
         if self.content.startswith(f'{p}banlist'):
@@ -492,7 +494,6 @@ class Bot(discord.Client):
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
             except Exception as e:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Синтаксическая ошибка в команде.', icon_url=icons['error']))
-                return False
             if len(_bans) <= 0:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Забаненные пользователи отсутствуют.', icon_url=icons['successful']))
             _banned = []
