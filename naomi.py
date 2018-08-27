@@ -471,7 +471,7 @@ class Bot(discord.Client):
                     print(f'{banned_user.user.name} | {arg[1:]}')
                     if banned_user.user.name == ' '.join(arg[1:]):
                         _user = banned_user.user
-                        await guild.unban(user=_user)
+                        await self.guild.unban(user=_user)
                         unbanned = True
 
                 if not unbanned:
