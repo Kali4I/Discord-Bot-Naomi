@@ -193,8 +193,8 @@ class Bot(discord.Client):
             if arg[0] != f'{p}cleanup':
                 return False
 
-            if not self.bot_permissions.manage_messages: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             if not self.permissions.manage_messages and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+            if not self.bot_permissions.manage_messages: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
 
             try: arg[1] and arg[2]
             except:
@@ -213,8 +213,8 @@ class Bot(discord.Client):
                 return False
             try: arg[1]
             except: return await self.channel.send(embed=discord.Embed(color=0xff00ff).set_footer(text=f'{p}purge [кол-во сообщений]', icon_url=icons['using']))
-            if not self.bot_permissions.manage_messages: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             if not self.permissions.manage_messages and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+            if not self.bot_permissions.manage_messages: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             if int(arg[1]) >= 101:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Невозможно за раз удалить более 99 сообщений (включая сообщение-команду).', icon_url=icons['error']))
             return await self.channel.purge(limit=int(arg[1]) + 1)
@@ -421,8 +421,8 @@ class Bot(discord.Client):
             if arg[0] != f'{p}ban':
                 return False
 
-            if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             if not self.permissions.ban_members and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+            if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
 
             try: arg[1]
             except:
@@ -448,8 +448,8 @@ class Bot(discord.Client):
             if arg[0] != f'{p}unban':
                 return False
 
-            if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             if not self.permissions.ban_members and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+            if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
 
             try: arg[1]
             except:
@@ -475,8 +475,8 @@ class Bot(discord.Client):
             if arg[0] != f'{p}banlist':
                 return False
 
-            if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             if not self.permissions.ban_members and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+            if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
 
             try: _bans = await self.guild.bans()
             except discord.errors.Forbidden:
@@ -659,8 +659,8 @@ class Bot(discord.Client):
             if arg[0] != f'{p}say':
                 return False
 
-            if not self.bot_permissions.manage_messages: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             if not self.permissions.manage_messages and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+            if not self.bot_permissions.manage_messages: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
 
             try: arg[1]
             except:
@@ -678,8 +678,8 @@ class Bot(discord.Client):
 
             return False # временно отключено
 
-            if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             if not self.permissions.ban_members and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+            if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
 
             try: arg[1]
             except:
@@ -714,8 +714,8 @@ class Bot(discord.Client):
 
             return False # временно отключено
 
-            if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             if not self.permissions.ban_members and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+            if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
 
             try: arg[1]
             except:
@@ -742,8 +742,8 @@ class Bot(discord.Client):
             if arg[0] != f'{p}kick':
                 return False
 
-            if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             if not self.permissions.ban_members and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+            if not self.bot_permissions.ban_members: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             
             try: arg[1]
             except:
@@ -767,8 +767,8 @@ class Bot(discord.Client):
             if arg[0] != f'{p}myname':
                 return False
 
-            if not self.bot_permissions.manage_nicknames: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             #if not self.permissions.manage_nicknames and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+            if not self.bot_permissions.manage_nicknames: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
 
             try: arg[1]
             except:
