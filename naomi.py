@@ -465,7 +465,7 @@ class Bot(discord.Client):
                 else: _r = ' '.join(arg[2:])
                 _user = discord.utils.get(
                     client.users, 
-                    id=Data.member.load(
+                    id=Data.member.get(
                         arg[1], self.guild
                     ).id
                 )
