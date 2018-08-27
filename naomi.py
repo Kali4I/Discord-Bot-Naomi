@@ -390,14 +390,27 @@ class Bot(discord.Client):
             try: arg[1]
             except:
                 return await self.channel.send(embed=discord.Embed(color=0xD587F2).set_footer(text=f'{p}osu [никнейм] | lemmy.pw', icon_url=icons['osu!']))
+
+            try: arg[2]
+            except:
+                game_mode = 0
+            else:
+                if arg[2] == 'taiko' or arg[2] == 't':
+                    game_mode = {'num': 1, 'name': 'osu!taiko'}
+                if arg[2] == 'catch' or arg[2] == 'ctb' or arg[2] == 'c':
+                    game_mode = {'num': 2, 'name': 'osu!catch'}
+                if arg[2] == 'mania' or arg[2] == 'm':
+                    game_mode = {'num': 3, 'name': 'osu!mania'}
+
             _colour = randint(0x000000, 0xFFFFFF)
             _tab_colour = lambda: randint(0,255)
             osu_desk_color = '%02X%02X%02X' % (_tab_colour(), _tab_colour(), _tab_colour())
             print(osu_desk_color)
 
-            _image_url = f'http://lemmmy.pw/osusig/sig.php?colour=hex{osu_desk_color}&uname={arg[1]}&pp=1&countryrank&removeavmargin&flagshadow&flagstroke&darktriangles&onlineindicator=undefined&xpbar&xpbarhex'
+            # _image_url = f'http://lemmmy.pw/osusig/sig.php?colour=hex{osu_desk_color}&uname={arg[1]}&pp=1&countryrank&removeavmargin&flagshadow&flagstroke&darktriangles&onlineindicator=undefined&xpbar&xpbarhex'
+            _image_url = f'http://lemmmy.pw/osusig/sig.php?colour=hex{osu_desk_color}&uname={arg[1]}&mode={game_mode["num"]}&pp=1&countryrank&removeavmargin&flagshadow&flagstroke&darktriangles&opaqueavatar&avatarrounding=5&onlineindicator=undefined&xpbar&xpbarhex'
 
-            osu_st = discord.Embed(color=_colour)
+            osu_st = discord.Embed(color=_colour, title='Статистика {arg[1]} в {game_mode["name"]}')
             osu_st.set_image(url=_image_url)
             osu_st.set_footer(icon_url=icons['osu!'], text=f'{p}osu [никнейм] | lemmy.pw')
             return await self.channel.send(embed=osu_st)
