@@ -468,7 +468,7 @@ class Bot(discord.Client):
                 # TODO: починить эту хрень
 
                 for banned_user in _bans:
-                    print(f'{banner.user.name} | {arg[1:]}')
+                    print(f'{banned_user.user.name} | {arg[1:]}')
                     if banned_user.user.name == arg[1:]:
                         _user = banned_user.user
                         await guild.unban(user=_user)
