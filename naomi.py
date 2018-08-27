@@ -60,7 +60,7 @@ class Bot(discord.Client):
         _exception = traceback.format_exc()
         dev = discord.utils.get(client.users, id=297421244402368522)
         await message.channel.send('Во время выполнения произошла ошибка.\nНе стоит беспокоиться, она отправлена разработчику и вскоре он ею займется!')
-        return await dev.send(f"Произошло исключение...\n```python\n{_exception}```")
+        return await dev.send(f"Произошло исключение... \nGuild: {message.guild.name}\nMember: {message.author}\n```python\n{_exception}```")
 
 
     async def on_message(self, message):
@@ -213,6 +213,8 @@ class Bot(discord.Client):
                 return False
             try: arg[1]
             except: return await self.channel.send(embed=discord.Embed(color=0xff00ff).set_footer(text=f'{p}purge [кол-во сообщений]', icon_url=icons['using']))
+            if not arg[1].isnumeric():
+                return await self.channel.send(embed=discord.Embed(color=0xff00ff).set_footer(text=f'{p}purge [кол-во сообщений (ЧИСЛО!)]', icon_url=icons['using']))
             if not self.permissions.manage_messages and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
             if not self.bot_permissions.manage_messages: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
             if int(arg[1]) >= 101:
@@ -279,6 +281,8 @@ class Bot(discord.Client):
 `{p}unban    `| Разбанить пользователя;
 `{p}banlist  `| Банлист сервера;
 `{p}kick     `| Выгнать пользователя;
+`{p}mute     `| [BETA] Приглушить пользователя;
+`{p}unmute   `| [BETA] Убрать приглушение с пользователя;
 '''
 
             _description = f'[「Наш Discord-сервер」](https://discord.gg/ZQfNQ43) [「Пригласить меня」](https://discordapp.com/oauth2/authorize?client_id=452534618520944649&scope=bot&permissions=301296759) [「GitHub」](https://github.com/AkiraSumato-01/Discord-Bot-Naomi)  \nПрефикс на этом сервере: {p}'
@@ -993,6 +997,55 @@ class Bot(discord.Client):
                 title=f'Пользователи с ролью "{_rolename}":',
                 description='\n'.join(_members_with_role)
                 ).set_footer(text=f'{p}roleusers [имя роли]', icon_url=icons['using']))
+
+
+        if self.content.startswith(f'{p}mute'):
+            self.content = self.content.replace('  ', ' ')
+            arg = self.content.split(' ')
+            if arg[0] != f'{p}mute':
+                return False
+
+            try: arg[1]
+            except:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{p}mute [@пользователь]', icon_url=icons['using']))
+
+            if not self.permissions.manage_roles and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+            if not self.bot_permissions.manage_roles: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
+
+            target = Data.member.get(arg[1], self.guild)
+
+            try:
+                for textchannel in self.guild.text_channels:
+                    await textchannel.set_permissions(target, read_messages=True, send_messages=False)
+            except discord.errors.Forbidden:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
+            else:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000, title=f'Пользователь {target.mention} приглушен.').set_footer(text=f'{p}mute [@пользователь]', icon_url=icons['using']))
+
+
+
+        if self.content.startswith(f'{p}unmute'):
+            self.content = self.content.replace('  ', ' ')
+            arg = self.content.split(' ')
+            if arg[0] != f'{p}unmute':
+                return False
+
+            try: arg[1]
+            except:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{p}unmute [@пользователь]', icon_url=icons['using']))
+
+            if not self.permissions.manage_roles and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+            if not self.bot_permissions.manage_roles: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
+
+            target = Data.member.get(arg[1], self.guild)
+
+            try:
+                for textchannel in self.guild.text_channels:
+                    await textchannel.set_permissions(target, overwrite=None)
+            except discord.errors.Forbidden:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
+            else:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000, title=f'Пользователь {target.mention} больше не приглушен.').set_footer(text=f'{p}unmute [@пользователь]', icon_url=icons['using']))
 
 
 
