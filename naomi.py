@@ -469,13 +469,13 @@ class Bot(discord.Client):
 
                 for banned_user in _bans:
                     print(f'{banned_user.user.name} | {arg[1:]}')
-                    if banned_user.user.name == arg[1:]:
+                    if banned_user.user.name == ' '.join(arg[1:]):
                         _user = banned_user.user
                         await guild.unban(user=_user)
                         unbanned = True
 
                 if not unbanned:
-                    return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'Не удалось разбанить пользователя {_user}.', icon_url=icons['error']))
+                    return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'Не удалось разбанить пользователя.', icon_url=icons['error']))
 
 
             except discord.errors.Forbidden:
