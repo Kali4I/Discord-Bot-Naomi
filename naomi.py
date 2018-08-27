@@ -407,14 +407,7 @@ class Bot(discord.Client):
             osu_desk_color = '%02X%02X%02X' % (_tab_colour(), _tab_colour(), _tab_colour())
             print(osu_desk_color)
 
-            # _image_url = f'http://lemmmy.pw/osusig/sig.php?colour=hex{osu_desk_color}&uname={arg[1]}&pp=1&countryrank&removeavmargin&flagshadow&flagstroke&darktriangles&onlineindicator=undefined&xpbar&xpbarhex'
             _image_url = f'http://lemmmy.pw/osusig/sig.php?colour=hex{osu_desk_color}&uname={arg[1]}&mode={game_mode["num"]}&pp=1&countryrank&removeavmargin&flagshadow&flagstroke&darktriangles&opaqueavatar&avatarrounding=5&onlineindicator=undefined&xpbar&xpbarhex'
-
-            warn(_image_url)
-            warn(osu_desk_color)
-            warn(arg[1])
-            warn(game_mode['num'])
-
 
             osu_st = discord.Embed(color=_colour, title=f'Статистика {arg[1]} в {game_mode["name"]}')
             osu_st.set_image(url=_image_url)
