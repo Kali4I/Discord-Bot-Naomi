@@ -438,8 +438,8 @@ class Bot(discord.Client):
                 else: _r = ' '.join(arg[2:])
                 _user = Data.member.get(arg[1], self.guild)
                 await self.guild.ban(user=_user, reason=_r)
-            except discord.errors.Forbidden:
-                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Нет прав.', icon_url=icons['error']))
+            #except discord.errors.Forbidden:
+                #return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
             except Exception as e:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=e, icon_url=icons['error']))
             else:
