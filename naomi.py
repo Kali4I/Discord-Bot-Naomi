@@ -468,8 +468,8 @@ class Bot(discord.Client):
 
                 for banned_user in _bans:
                     if banned_user.user.name == arg[1:]:
-                        await banned_user.unban(user=_user, reason=_r)
                         _user = banned_user
+                        await self.guild.unban(user=_user)
 
 
             except discord.errors.Forbidden:
