@@ -457,20 +457,20 @@ class Bot(discord.Client):
 
             try: arg[1]
             except:
-                return await self.channel.send(embed=discord.Embed(color=0xD587F2).set_footer(text=f'{p}ban [@пользователь] [причина]', icon_url=icons['using']))
+                return await self.channel.send(embed=discord.Embed(color=0xD587F2).set_footer(text=f'{p}unban [@пользователь] [причина]', icon_url=icons['using']))
 
             try:
                 try: arg[2]
                 except: _r = 'отсутствует'
                 else: _r = ' '.join(arg[2:])
-                _user = self.guild.get_member(Data.member.load(arg[1], self.guild).id)
+                _user = Data.member.load(arg[1])
                 await _user.unban(user=_user, reason=_r)
             except discord.errors.Forbidden:
-                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Нет прав.', icon_url=icons['error']))
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
             except Exception as e:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=e, icon_url=icons['error']))
             else:
-                return await self.channel.send(embed=discord.Embed(color=0x00ff00, description=f'Пользователь {_user} забанен!\nПричина: {_r}.').set_footer(text=f'{p}unban [@пользователь] [причина]', icon_url=icons['using']))
+                return await self.channel.send(embed=discord.Embed(color=0x00ff00, description=f'Пользователь {_user.mention} забанен!\nПричина: {_r}.').set_footer(text=f'{p}unban [@пользователь] [причина]', icon_url=icons['using']))
 
 
         if self.content.startswith(f'{p}banlist'):
@@ -927,7 +927,6 @@ class Bot(discord.Client):
 
                 pages['01'].add_field(name='prefix', value='Устанавливает префикс для команд на этом сервере.')
                 pages['01'].add_field(name='max-warns', value='Устанавливает макс.кол-во варнов на этом сервере.')
-                pages['01'].add_field(name='mute-role', value='Устанавливает роль "мута" на этом сервере.')
                 pages['01'].add_field(name='admin', value='Добавить/удалить Администратора бота на этом сервере.')
 
                 message = await self.channel.send(embed=pages['01'])
