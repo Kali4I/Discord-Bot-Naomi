@@ -393,7 +393,7 @@ class Bot(discord.Client):
 
             try: arg[2]
             except:
-                game_mode = 0
+                game_mode = {'num': 0, 'name': 'osu!'}
             else:
                 if arg[2] == 'taiko' or arg[2] == 't':
                     game_mode = {'num': 1, 'name': 'osu!taiko'}
@@ -410,7 +410,13 @@ class Bot(discord.Client):
             # _image_url = f'http://lemmmy.pw/osusig/sig.php?colour=hex{osu_desk_color}&uname={arg[1]}&pp=1&countryrank&removeavmargin&flagshadow&flagstroke&darktriangles&onlineindicator=undefined&xpbar&xpbarhex'
             _image_url = f'http://lemmmy.pw/osusig/sig.php?colour=hex{osu_desk_color}&uname={arg[1]}&mode={game_mode["num"]}&pp=1&countryrank&removeavmargin&flagshadow&flagstroke&darktriangles&opaqueavatar&avatarrounding=5&onlineindicator=undefined&xpbar&xpbarhex'
 
-            osu_st = discord.Embed(color=_colour, title='Статистика {arg[1]} в {game_mode["name"]}')
+            warn(_image_url)
+            warn(osu_desk_color)
+            warn(arg[1])
+            warn(game_mode['num'])
+
+
+            osu_st = discord.Embed(color=_colour, title=f'Статистика {arg[1]} в {game_mode["name"]}')
             osu_st.set_image(url=_image_url)
             osu_st.set_footer(icon_url=icons['osu!'], text=f'{p}osu [никнейм] | lemmy.pw')
             return await self.channel.send(embed=osu_st)
