@@ -1020,7 +1020,7 @@ class Bot(discord.Client):
             except discord.errors.Forbidden:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
             else:
-                return await self.channel.send(embed=discord.Embed(color=0xff0000, title=f'Пользователь {target.mention} приглушен.').set_footer(text=f'{p}mute [@пользователь]', icon_url=icons['using']))
+                return await self.channel.send(embed=discord.Embed(color=0xff0000, description=f'Пользователь {target.mention} приглушен.').set_footer(text=f'{p}mute [@пользователь]', icon_url=icons['using']))
 
 
 
@@ -1045,7 +1045,7 @@ class Bot(discord.Client):
             except discord.errors.Forbidden:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
             else:
-                return await self.channel.send(embed=discord.Embed(color=0xff0000, title=f'Пользователь {target.mention} больше не приглушен.').set_footer(text=f'{p}unmute [@пользователь]', icon_url=icons['using']))
+                return await self.channel.send(embed=discord.Embed(color=0xff0000, description=f'Пользователь {target.mention} больше не приглушен.').set_footer(text=f'{p}unmute [@пользователь]', icon_url=icons['using']))
 
 
 
