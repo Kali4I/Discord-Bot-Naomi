@@ -438,8 +438,8 @@ class Bot(discord.Client):
                 else: _r = ' '.join(arg[2:])
                 _user = Data.member.get(arg[1], self.guild)
                 await self.guild.ban(user=_user, reason=_r)
-            #except discord.errors.Forbidden:
-                #return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
+            except discord.errors.Forbidden:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
             except Exception as e:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=e, icon_url=icons['error']))
             else:
@@ -463,7 +463,12 @@ class Bot(discord.Client):
                 try: arg[2]
                 except: _r = 'отсутствует'
                 else: _r = ' '.join(arg[2:])
-                _user = Data.member.load(arg[1])
+                _user = discord.utils.get(
+                    client.users, 
+                    id=Data.member.load(
+                        arg[1], self.guild
+                    ).id
+                )
                 await _user.unban(user=_user, reason=_r)
             except discord.errors.Forbidden:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
@@ -484,7 +489,7 @@ class Bot(discord.Client):
 
             try: _bans = await self.guild.bans()
             except discord.errors.Forbidden:
-                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Нет прав.', icon_url=icons['error']))
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
             except Exception as e:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Синтаксическая ошибка в команде.', icon_url=icons['error']))
                 return False
