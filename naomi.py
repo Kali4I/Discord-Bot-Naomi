@@ -1026,7 +1026,7 @@ class Bot(discord.Client):
 
             _role = discord.utils.get(self.guild.roles, name=_rolename)
             if _role is None:
-                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'Мне не удалось найти роль "{arg[1]}..."', icon_url=icons['error']))
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'Мне не удалось найти роль "{arg[1:]}..."', icon_url=icons['error']))
 
             _members_with_role = []
             for member in self.guild.members:
