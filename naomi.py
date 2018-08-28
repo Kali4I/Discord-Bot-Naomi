@@ -676,7 +676,7 @@ class Bot(discord.Client):
 
             self.content = self.content.replace('  ', ' ')
             arg = self.content.split(' ')
-            if arg[0] != f'{p}msg':
+            if arg[0] != f'{p}restart':
                 return False
 
             if self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
