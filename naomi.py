@@ -1097,6 +1097,11 @@ class Bot(discord.Client):
                 return await self.channel.send(embed=discord.Embed(color=0xff0000, description=f'Пользователь {target.mention} больше не приглушен.').set_footer(text=f'{p}unmute [@пользователь]', icon_url=icons['using']))
 
 
+        if self.content.startswith(f'{p}#exception'):
+            if self.author.id is not 297421244402368522:
+                return False
+
+            return 5 / 0 # Тупо делим на ноль
 
 
 if __name__ == '__main__':
