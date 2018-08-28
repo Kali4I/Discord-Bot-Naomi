@@ -669,6 +669,33 @@ class Bot(discord.Client):
                 return await self.channel.send(embed=a)
 
 
+        if self.content.startswith(f'{p}stop'):
+            '''On heroku "exit(0)" will restart bot'''
+
+            self.content = self.content.replace('  ', ' ')
+            arg = self.content.split(' ')
+            if arg[0] != f'{p}msg':
+                return False
+
+            await channel.send(embed=discord.Embed(color=0xff0033).set_footer(icon_url='http://www.palazzorealemilano.it/wps/CustomWfActions/images/loadingImage.gif', text='Перезапускаемся...'))
+            return exit(0)
+
+
+
+        if self.content.startswith(f'{p}msg'):
+            self.content = self.content.replace('  ', ' ')
+            arg = self.content.split(' ')
+            if arg[0] != f'{p}msg':
+                return False
+
+            try: arg[1]
+            except:
+                return await self.channel.send(embed=discord.Embed(color=0xD587F2).set_footer(text=f'{p}msg [сообщение]', icon_url=icons['using']))
+            else:
+                await self.message.delete()
+                return await self.channel.send(' '.join(arg[1:]) + ' (c) ' + self.author.name)
+
+
         if self.content.startswith(f'{p}say'):
             self.content = self.content.replace('  ', ' ')
             arg = self.content.split(' ')
