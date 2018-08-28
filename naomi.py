@@ -1064,6 +1064,8 @@ class Bot(discord.Client):
             try:
                 for textchannel in self.guild.text_channels:
                     await textchannel.set_permissions(target, read_messages=True, send_messages=False)
+            except discord.errors.InvalidArgument:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Не удалось выполнить команду.', icon_url=icons['error']))
             except discord.errors.Forbidden:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
             else:
