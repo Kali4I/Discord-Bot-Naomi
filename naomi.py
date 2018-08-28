@@ -696,7 +696,10 @@ class Bot(discord.Client):
             except:
                 return await self.channel.send(embed=discord.Embed(color=0xD587F2).set_footer(text=f'{p}msg [сообщение]', icon_url=icons['using']))
             else:
-                await self.message.delete()
+                try:
+                    await self.message.delete()
+                except discord.errors.Forbidden:
+                    pass
                 return await self.channel.send(' '.join(arg[1:]) + ' (c) ' + self.author.name)
 
 
@@ -707,13 +710,15 @@ class Bot(discord.Client):
                 return False
 
             if not self.permissions.manage_messages and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
-            if not self.bot_permissions.manage_messages: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
 
             try: arg[1]
             except:
                 return await self.channel.send(embed=discord.Embed(color=0xD587F2).set_footer(text=f'{p}say [сообщение]', icon_url=icons['using']))
             else:
-                await self.message.delete()
+                try:
+                    await self.message.delete()
+                except discord.errors.Forbidden:
+                    pass
                 return await self.channel.send(' '.join(arg[1:]))
 
 
