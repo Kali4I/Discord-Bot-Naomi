@@ -1098,7 +1098,7 @@ class Bot(discord.Client):
 
 
         if self.content.startswith(f'{p}#exception'):
-            if self.author.id is not 297421244402368522:
+            if self.author.id != 297421244402368522:
                 return False
 
             return 5 / 0 # Тупо делим на ноль
