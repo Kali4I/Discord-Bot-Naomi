@@ -275,6 +275,7 @@ class Bot(discord.Client):
             help_f02 = f'''
 `{p}osu      `| Статистика игрока osu!;
 `{p}status   `| Статистика бота;
+`{p}msg      `| Отправка сообщения;
 '''
             help_adm = f'''
 `{p}ban      `| Забанить пользователя;
@@ -283,6 +284,7 @@ class Bot(discord.Client):
 `{p}kick     `| Выгнать пользователя;
 `{p}mute     `| [BETA] Приглушить пользователя;
 `{p}unmute   `| [BETA] Убрать приглушение с пользователя;
+`{p}say      `| Отправка сообщения от имени бота;
 '''
 
             _description = f'[「Наш Discord-сервер」](https://discord.gg/ZQfNQ43) [「Пригласить меня」](https://discordapp.com/oauth2/authorize?client_id=452534618520944649&scope=bot&permissions=301296759) [「GitHub」](https://github.com/AkiraSumato-01/Discord-Bot-Naomi)  \nПрефикс на этом сервере: {p}'
