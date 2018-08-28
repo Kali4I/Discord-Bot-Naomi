@@ -671,13 +671,15 @@ class Bot(discord.Client):
                 return await self.channel.send(embed=a)
 
 
-        if self.content.startswith(f'{p}stop'):
+        if self.content.startswith(f'{p}restart'):
             '''On heroku "exit(0)" will restart bot'''
 
             self.content = self.content.replace('  ', ' ')
             arg = self.content.split(' ')
             if arg[0] != f'{p}msg':
                 return False
+
+            if self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
 
             await channel.send(embed=discord.Embed(color=0xff0033).set_footer(icon_url='http://www.palazzorealemilano.it/wps/CustomWfActions/images/loadingImage.gif', text='Перезапускаемся...'))
             return exit(0)
