@@ -681,7 +681,7 @@ class Bot(discord.Client):
 
             if self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
 
-            await channel.send(embed=discord.Embed(color=0xff0033).set_footer(icon_url='http://www.palazzorealemilano.it/wps/CustomWfActions/images/loadingImage.gif', text='Перезапускаемся...'))
+            await self.channel.send(embed=discord.Embed(color=0xff0033).set_footer(icon_url='http://www.palazzorealemilano.it/wps/CustomWfActions/images/loadingImage.gif', text='Перезапускаемся...'))
             return exit(0)
 
 
