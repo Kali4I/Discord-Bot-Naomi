@@ -124,10 +124,10 @@ class Data:
                 return True
 
 def log(message: str = ''):
-    return print(f'[LOG] {message}')
+    return print(f'[{time.time()}] >>> {message}')
 
 def warn(message: str = ''):
-    return print(f'[WARN] {message}')
+    return print(f'[{time.time()}] [WARN] {message}')
 
 def error(message: str = ''):
-    return print(f'[ERROR] {message}')
+    return print(f'[{time.time()}] [ERROR] {message}')
