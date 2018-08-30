@@ -1088,7 +1088,7 @@ class Bot(discord.Client):
 
             try: arg[1]
             except:
-                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{p}mute [@пользователь]', icon_url=icons['using']))
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{p}mutethere [@пользователь]', icon_url=icons['using']))
 
             if not self.permissions.manage_roles and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
             if not self.bot_permissions.manage_roles: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
@@ -1102,7 +1102,7 @@ class Bot(discord.Client):
             except discord.errors.Forbidden:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
             else:
-                return await self.channel.send(embed=discord.Embed(color=0xff0000, description=f'Пользователь {target.mention} приглушен.').set_footer(text=f'{p}mute [@пользователь]', icon_url=icons['using']))
+                return await self.channel.send(embed=discord.Embed(color=0xff0000, description=f'Пользователь {target.mention} приглушен.').set_footer(text=f'{p}mutethere [@пользователь]', icon_url=icons['using']))
 
 
 
