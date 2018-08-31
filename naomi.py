@@ -290,6 +290,7 @@ class Bot(discord.Client):
 `{p}banlist  `| Банлист сервера;
 `{p}kick     `| Выгнать пользователя;
 `{p}mute     `| [BETA] Приглушить пользователя;
+`{p}mutethere`| [BETA] Приглушить пользователя в этом канале;
 `{p}unmute   `| [BETA] Убрать приглушение с пользователя;
 `{p}say      `| Отправка сообщения от имени бота;
 '''
@@ -1071,6 +1072,31 @@ class Bot(discord.Client):
             try:
                 for textchannel in self.guild.text_channels:
                     await textchannel.set_permissions(target, read_messages=True, send_messages=False)
+            except discord.errors.InvalidArgument:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Не удалось выполнить команду.', icon_url=icons['error']))
+            except discord.errors.Forbidden:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
+            else:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000, description=f'Пользователь {target.mention} приглушен.').set_footer(text=f'{p}mute [@пользователь]', icon_url=icons['using']))
+
+
+        if self.content.startswith(f'{p}mutethere'):
+            self.content = self.content.replace('  ', ' ')
+            arg = self.content.split(' ')
+            if arg[0] != f'{p}mutethere':
+                return False
+
+            try: arg[1]
+            except:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{p}mute [@пользователь]', icon_url=icons['using']))
+
+            if not self.permissions.manage_roles and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
+            if not self.bot_permissions.manage_roles: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
+
+            target = Data.member.get(arg[1], self.guild)
+
+            try:
+                await self.channel.set_permissions(target, read_messages=True, send_messages=False)
             except discord.errors.InvalidArgument:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Не удалось выполнить команду.', icon_url=icons['error']))
             except discord.errors.Forbidden:
