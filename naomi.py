@@ -54,7 +54,7 @@ class Bot(discord.Client):
                 await asyncio.sleep(_sleeping)
         self.loop.create_task(__presence())
 
-    async def on_error(event, *args, **kwargs):
+    async def on_error(self, event, *args, **kwargs):
         warn(str(args))
         message = args[1]
         _exception = traceback.format_exc()
