@@ -59,7 +59,14 @@ class Bot(discord.Client):
         message = args[1]
         _exception = traceback.format_exc()
         dev = discord.utils.get(client.users, id=297421244402368522)
-        await message.channel.send('Во время выполнения произошла ошибка.\nНе стоит беспокоиться, она отправлена разработчику и вскоре он ею займется!')
+        bot_permissions = discord.utils.get(message.guild.members, name=self.user.name).permissions_in(message.channel)
+
+        if bot_permissions.send_messages:
+            await message.channel.send('Во время выполнения произошла ошибка.\nНе стоит беспокоиться, она отправлена разработчику и вскоре он ею займется!')
+        elif bot_permissions.add_reactions:
+            await message.add_reaction(react['err'])
+        else:
+            pass
         return await dev.send(f"Произошло исключение... \nGuild: {message.guild.name}\nMember: {message.author}\n```python\n{_exception}```")
 
 
