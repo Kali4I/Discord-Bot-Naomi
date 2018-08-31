@@ -56,7 +56,7 @@ class Bot(discord.Client):
 
     async def on_error(self, event, *args, **kwargs):
         warn(str(args))
-        message = args[1]
+        message = args[0]
         _exception = traceback.format_exc()
         dev = discord.utils.get(client.users, id=297421244402368522)
         bot_permissions = discord.utils.get(message.guild.members, name=self.user.name).permissions_in(message.channel)
