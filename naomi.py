@@ -3,10 +3,12 @@ from platform import python_version
 from random import choice, randint
 import traceback
 import platform
+import datetime
 import textwrap
 import discord
 import asyncio
 import psutil
+import whois
 import nekos
 import time
 import sys
