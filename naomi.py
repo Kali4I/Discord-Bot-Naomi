@@ -283,6 +283,7 @@ class Bot(discord.Client):
 `{p}osu      `| Статистика игрока osu!;
 `{p}status   `| Статистика бота;
 `{p}msg      `| Отправка сообщения;
+`{p}hostinfo `| Информация о домене;
 '''
             help_adm = f'''
 `{p}ban      `| Забанить пользователя;
@@ -1134,6 +1135,41 @@ class Bot(discord.Client):
                 return False
 
             return 5 / 0 # Тупо делим на ноль
+
+
+        if self.content.startswith(f'{p}hostinfo'):
+            self.content = self.content.replace('  ', ' ')
+            arg = self.content.split(' ')
+            if arg[0] != f'{p}hostinfo':
+                return False
+
+            try: arg[1]
+            except:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{p}hostinfo [домен]', icon_url=icons['using']))
+
+            whois_info = whois.whois(arg[1])
+
+            expdata = []
+            for data in :
+                expdata.append(str(data))
+
+            updatedata = []
+            for data in :
+                updatedata.append(str(data))
+
+            hostinfo = discord.Embed(color=0xff0000, title=f'WHOIS-информация для {arg[1]}')
+
+            hostinfo.add_field(name="Домен:", value=f'{whois_info["domain_name"]}', inline=True)
+            hostinfo.add_field(name="Регистратор:", value=f'{whois_info["registrar"]}', inline=True)
+            hostinfo.add_field(name="Whois-сервер:", value=f'{whois_info["whois_server"]}', inline=True)
+            hostinfo.add_field(name="Дата окончания:", value=f'{whois_info["expiration_date"]}', inline=True)
+            hostinfo.add_field(name="Дата обновления:", value=f'{whois_info["updated_date"]}', inline=True)
+            hostinfo.add_field(name="Дата создания:", value=f'{whois_info["creation_date"]}', inline=True)
+            hostinfo.add_field(name="Регион:", value=f'{whois_info["country"]}', inline=True)
+
+            hostinfo.set_footer(text=f'{p}hostinfo [домен]', icon_url=icons['using'])
+            return await self.channel.send(embed=hostinfo)
+
 
 
 if __name__ == '__main__':

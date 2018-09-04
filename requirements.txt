@@ -6,3 +6,5 @@ pillow
 psutil
 requests
 speedtest-cli
+python-whois
+datetime
