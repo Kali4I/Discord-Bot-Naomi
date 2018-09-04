@@ -1157,7 +1157,6 @@ class Bot(discord.Client):
             hostinfo.add_field(name="Регистратор:", value=f'{whois_info["registrar"]}', inline=True)
             hostinfo.add_field(name="Whois-сервер:", value=f'{whois_info["whois_server"]}', inline=True)
             hostinfo.add_field(name="Дата окончания:", value=f'{whois_info["expiration_date"]}', inline=True)
-            hostinfo.add_field(name="Дата обновления:", value=f'{whois_info["updated_date"]}', inline=True)
             hostinfo.add_field(name="Дата создания:", value=f'{whois_info["creation_date"]}', inline=True)
             hostinfo.add_field(name="Регион:", value=f'{whois_info["country"]}', inline=True)
 
