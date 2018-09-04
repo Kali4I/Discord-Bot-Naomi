@@ -1151,14 +1151,6 @@ class Bot(discord.Client):
 
             whois_info = whois.whois(arg[1])
 
-            expdata = []
-            for data in :
-                expdata.append(str(data))
-
-            updatedata = []
-            for data in :
-                updatedata.append(str(data))
-
             hostinfo = discord.Embed(color=0xff0000, title=f'WHOIS-информация для {arg[1]}')
 
             hostinfo.add_field(name="Домен:", value=f'{whois_info["domain_name"]}', inline=True)
