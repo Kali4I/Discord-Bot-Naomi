@@ -1153,11 +1153,21 @@ class Bot(discord.Client):
 
             hostinfo = discord.Embed(color=0xff0000, title=f'WHOIS-информация для {arg[1]}')
 
+            try:
+                expdata = str(whois_info["expiration_date"][0])
+            except:
+                expdata = str(whois_info["expiration_date"])
+
+            try:
+                crtdata = str(whois_info["creation_date"][0])
+            except:
+                crtdata = str(whois_info["creation_date"])
+
             hostinfo.add_field(name="Домен:", value=f'{whois_info["domain_name"]}', inline=True)
             hostinfo.add_field(name="Регистратор:", value=f'{whois_info["registrar"]}', inline=True)
             hostinfo.add_field(name="Whois-сервер:", value=f'{whois_info["whois_server"]}', inline=True)
-            hostinfo.add_field(name="Дата окончания:", value=f'{whois_info["expiration_date"]}', inline=True)
-            hostinfo.add_field(name="Дата создания:", value=f'{whois_info["creation_date"]}', inline=True)
+            hostinfo.add_field(name="Дата окончания:", value=f'{expdata}', inline=True)
+            hostinfo.add_field(name="Дата создания:", value=f'{crtdata}', inline=True)
             hostinfo.add_field(name="Регион:", value=f'{whois_info["country"]}', inline=True)
 
             hostinfo.set_footer(text=f'{p}hostinfo [домен]', icon_url=icons['using'])
