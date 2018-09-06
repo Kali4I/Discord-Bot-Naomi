@@ -1163,7 +1163,12 @@ class Bot(discord.Client):
             except:
                 crtdata = str(whois_info["creation_date"])
 
-            hostinfo.add_field(name="Домен:", value=f'{whois_info["domain_name"]}', inline=True)
+            try:
+                domain = whois_info["domain_name"][0]
+            except:
+                domain = whois_info["domain_name"]
+
+            hostinfo.add_field(name="Домен:", value=f'{domain}', inline=True)
             hostinfo.add_field(name="Регистратор:", value=f'{whois_info["registrar"]}', inline=True)
             hostinfo.add_field(name="Whois-сервер:", value=f'{whois_info["whois_server"]}', inline=True)
             hostinfo.add_field(name="Дата окончания:", value=f'{expdata}', inline=True)
