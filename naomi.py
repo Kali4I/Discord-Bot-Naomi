@@ -1102,16 +1102,16 @@ class Bot(discord.Client):
             if not self.bot_permissions.manage_roles: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
 
 
-            target_member = discord.utils.get(self.guild.members, name=arg[1])
+            target_member = discord.utils.get(self.guild.members, mention=arg[1])
 
             if target_member is None:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{self.author.mention}, указанный пользователь не найден.', icon_url=icons['error']))
 
             target = await self.guild.create_role(name='NaomiMute')
-            
+
             try:
                 for textchannel in self.guild.text_channels:
-                    await textchannel.set_permissions(target, read_messages=True, send_messages=False)
+                    await textchannel.set_permissions(target, read_messages=False, send_messages=False)
 
                 await target_member.add_roles(target)
             except discord.errors.InvalidArgument:
@@ -1119,7 +1119,7 @@ class Bot(discord.Client):
             except discord.errors.Forbidden:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
             else:
-                return await self.channel.send(embed=discord.Embed(color=0xff0000, description=f'Пользователь {target.mention} приглушен.').set_footer(text=f'{p}mute [@пользователь]', icon_url=icons['using']))
+                return await self.channel.send(embed=discord.Embed(color=0xff0000, description=f'Пользователь {target_member.mention} приглушен.').set_footer(text=f'{p}mute [@пользователь]', icon_url=icons['using']))
 
 
         if self.content.startswith(f'{p}unmute'):
@@ -1136,7 +1136,7 @@ class Bot(discord.Client):
             if not self.bot_permissions.manage_roles: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
 
             
-            target = discord.utils.get(self.guild.members, name=arg[1])
+            target = discord.utils.get(self.guild.members, mention=arg[1])
 
             if target is None:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{self.author.mention}, указанный пользователь не найден.', icon_url=icons['error']))
