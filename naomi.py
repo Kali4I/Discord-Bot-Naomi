@@ -133,6 +133,9 @@ class Bot(discord.Client):
                         'client': self,
                         'discord': discord
                     }
+
+                    owner = (await client.application_info()).owner
+
                     env.update(globals())
                     _code = ' '.join(arg[1:]).replace('```python', '').replace('```', '')
                     try:
@@ -151,7 +154,7 @@ class Bot(discord.Client):
                         msg.set_author(name='Интерпретатор Python кода.')
                         msg.set_footer(icon_url=icons['error'],
                             text=f'Интерпретация не удалась - Python {python_version()} | {platform.system()}')
-                        return await self.channel.send(f'{(await client.application_info()).owner.mention}, смотри сюда!', embed=msg)
+                        return await self.channel.send(f'{owner.mention}, смотри сюда!', embed=msg)
                     else:
                         value = stdout.getvalue()
                         if function is None:
@@ -161,13 +164,13 @@ class Bot(discord.Client):
                             success_msg.set_author(name='Интерпретатор Python кода.')
                             success_msg.set_footer(icon_url=icons['successful'],
                                 text=f'Интерпретация успешно завершена - Python {python_version()} | {platform.system()}')
-                            return await self.channel.send(f'{(await client.application_info()).owner.mention}, смотри сюда!', embed=success_msg)
+                            return await self.channel.send(f'{owner.mention}, смотри сюда!', embed=success_msg)
                         else:
                             success_msg = discord.Embed(color=0x00ff00, description=f":inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:]).replace('```python', '').replace('```', '')}```\n\n:outbox_tray: Выходные данные:\n```python\n{value}{function}```".replace(self.http.token, '•' * len(self.http.token)))
                             success_msg.set_author(name='Интерпретатор Python кода.')
                             success_msg.set_footer(icon_url=icons['successful'],
                                 text=f'Интерпретация успешно завершена - Python {python_version()} | {platform.system()}')
-                            return await self.channel.send(f'{(await client.application_info()).owner.mention}, смотри сюда!', embed=success_msg)
+                            return await self.channel.send(f'{owner.mention}, смотри сюда!', embed=success_msg)
 
             self.loop.create_task(_execution())
 
