@@ -143,12 +143,11 @@ class Bot(discord.Client):
                     _input_output = f'''
 :inbox_tray: Входные данные:
 ```python
-{' '.join(arg[1:])}
+{' '.join(arg[1:])}```
 
 :outbox_tray: Выходные данные:
 ```python
-{value}{function}
-```'''.replace(self.http.token, '•' * len(self.http.token))
+{value}{function}```'''.replace(self.http.token, '•' * len(self.http.token))
 
                 except Exception as e:
                     stdout = io.StringIO()
@@ -157,11 +156,10 @@ class Bot(discord.Client):
                     _input_output_trace = f'''
 :inbox_tray: Входные данные:
 ```python
-{arg[1:]}
-
+{arg[1:]}```
 :outbox_tray: Выходные данные:
-{value}{traceback.format_exc()}
-'''
+```python
+{value}{traceback.format_exc()}```'''.replace(self.http.token, '•' * len(self.http.token))
 
                     msg = discord.Embed(color=0xff0000, description=_input_output_trace)
                     msg.set_author(name='Интерпретатор Python кода.')
