@@ -1106,6 +1106,7 @@ class Bot(discord.Client):
             target_member = discord.utils.get(self.guild.members, name=arg[1])
 
             if target_member is None:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{self.author.mention}, указанный пользователь не найден.', icon_url=icons['error']))
 
             try:
                 for textchannel in self.guild.text_channels:
