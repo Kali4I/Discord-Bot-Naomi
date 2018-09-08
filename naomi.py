@@ -143,7 +143,7 @@ class Bot(discord.Client):
                     _input_output = f'''
 :inbox_tray: Входные данные:
 ```python
-{arg[1:]}
+{' '.join(arg[1:])}
 
 :outbox_tray: Выходные данные:
 ```python
