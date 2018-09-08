@@ -141,11 +141,6 @@ class Bot(discord.Client):
                         with redirect_stdout(stdout):
                             function = await virtexec()
 
-                        try:
-                            await self.message.delete()
-                        except discord.errors.Forbidden:
-                            pass
-
                     except Exception as e:
                         stdout = io.StringIO()
                         value = stdout.getvalue()
@@ -173,6 +168,15 @@ class Bot(discord.Client):
                             return await self.channel.send(f'{self.author.mention}, смотри сюда!', embed=success_msg)
 
             self.loop.create_task(_execution())
+
+            await asyncio.sleep(1.0)
+
+            try:
+                await self.message.delete()
+            except discord.errors.Forbidden:
+                pass
+
+            return True
 
 
         if self.content.startswith(f'{p}neko'):
