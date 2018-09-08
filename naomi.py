@@ -120,6 +120,8 @@ class Bot(discord.Client):
             if self.author.id != 297421244402368522:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Вы не можете выполнять данную команду.', icon_url=icons['error']))
 
+            user_message = self.message
+
             async def _execution():
                 async with self.channel.typing():
                     env = {
@@ -172,7 +174,7 @@ class Bot(discord.Client):
             await asyncio.sleep(1.0)
 
             try:
-                await self.message.delete()
+                await user_message.delete()
             except discord.errors.Forbidden:
                 pass
 
