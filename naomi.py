@@ -144,7 +144,7 @@ class Bot(discord.Client):
                     stdout = io.StringIO()
                     value = stdout.getvalue()
 
-                    msg = discord.Embed(color=0xff0000, description=f'\n:inbox_tray: Входные данные:\n```python\n{arg[1:]}```\n:outbox_tray: Выходные данные:\n```python\n{value}{traceback.format_exc()}```'.replace(self.http.token, '•' * len(self.http.token)))
+                    msg = discord.Embed(color=0xff0000, description=f"\n:inbox_tray: Входные данные:\n```python\n{arg[1:]}```\n:outbox_tray: Выходные данные:\n```python\n{value}{traceback.format_exc()}```".replace(self.http.token, '•' * len(self.http.token)))
                     msg.set_author(name='Интерпретатор Python кода.')
                     msg.set_footer(icon_url=icons['error'],
                         text=f'Интерпретация не удалась - Python {python_version()} | {platform.system()}')
@@ -153,13 +153,13 @@ class Bot(discord.Client):
                     value = stdout.getvalue()
                     if function is None:
                         if value:
-                            success_msg = discord.Embed(color=0x00ff00, description=f':inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:])}```\n\n:outbox_tray: Выходные данные:\n```python\n{value}```'.replace(self.http.token, '•' * len(self.http.token)))
+                            success_msg = discord.Embed(color=0x00ff00, description=f":inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:])}```\n\n:outbox_tray: Выходные данные:\n```python\n{value}```".replace(self.http.token, '•' * len(self.http.token)))
                             success_msg.set_author(name='Интерпретатор Python кода.')
                             success_msg.set_footer(icon_url=icons['successful'],
                                 text=f'Интерпретация успешно завершена - Python {python_version()} | {platform.system()}')
                             return await self.channel.send(embed=success_msg)
                     else:
-                        success_msg = discord.Embed(color=0x00ff00, description=f':inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:])}```\n\n:outbox_tray: Выходные данные:\n```python\n{value}{function}```'.replace(self.http.token, '•' * len(self.http.token)))
+                        success_msg = discord.Embed(color=0x00ff00, description=f":inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:])}```\n\n:outbox_tray: Выходные данные:\n```python\n{value}{function}```".replace(self.http.token, '•' * len(self.http.token)))
                         success_msg.set_author(name='Интерпретатор Python кода.')
                         success_msg.set_footer(icon_url=icons['successful'],
                             text=f'Интерпретация успешно завершена - Python {python_version()} | {platform.system()}')
