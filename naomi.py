@@ -121,50 +121,56 @@ class Bot(discord.Client):
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Вы не можете выполнять данную команду.', icon_url=icons['error']))
 
             async def _execution():
-                env = {
-                    'channel': self.channel,
-                    'author': self.author,
-                    'guild': self.guild,
-                    'message': self.message,
-                    'bot': self.user,
-                    'client': self,
-                    'discord': discord
-                }
-                env.update(globals())
-                _code = ' '.join(arg[1:]).replace('```python', '').replace('```', '')
-                try:
-                    stdout = io.StringIO()
-                    interpretate = f'async def virtexec():\n{textwrap.indent(_code, "  ")}'
-                    exec(interpretate, env)
-                    virtexec = env['virtexec']
-                    with redirect_stdout(stdout):
-                        function = await virtexec()
+                async with channel.typing():
+                    env = {
+                        'channel': self.channel,
+                        'author': self.author,
+                        'guild': self.guild,
+                        'message': self.message,
+                        'bot': self.user,
+                        'client': self,
+                        'discord': discord
+                    }
+                    env.update(globals())
+                    _code = ' '.join(arg[1:]).replace('```python', '').replace('```', '')
+                    try:
+                        stdout = io.StringIO()
+                        interpretate = f'async def virtexec():\n{textwrap.indent(_code, "  ")}'
+                        exec(interpretate, env)
+                        virtexec = env['virtexec']
+                        with redirect_stdout(stdout):
+                            function = await virtexec()
 
-                except Exception as e:
-                    stdout = io.StringIO()
-                    value = stdout.getvalue()
+                        try:
+                            await self.message.delete()
+                        except discord.errors.Forbidden:
+                            pass
 
-                    msg = discord.Embed(color=0xff0000, description=f"\n:inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:]).replace('```python', '').replace('```', '')}\n```\n:outbox_tray: Выходные данные:\n```python\n{value}{traceback.format_exc()}```".replace(self.http.token, '•' * len(self.http.token)))
-                    msg.set_author(name='Интерпретатор Python кода.')
-                    msg.set_footer(icon_url=icons['error'],
-                        text=f'Интерпретация не удалась - Python {python_version()} | {platform.system()}')
-                    return await self.channel.send(embed=msg)
-                else:
-                    value = stdout.getvalue()
-                    if function is None:
-                        if not value:
-                            value = 'None'
-                        success_msg = discord.Embed(color=0x00ff00, description=f":inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:]).replace('```python', '').replace('```', '')}```\n\n:outbox_tray: Выходные данные:\n```python\n{value}```".replace(self.http.token, '•' * len(self.http.token)))
-                        success_msg.set_author(name='Интерпретатор Python кода.')
-                        success_msg.set_footer(icon_url=icons['successful'],
-                            text=f'Интерпретация успешно завершена - Python {python_version()} | {platform.system()}')
-                        return await self.channel.send(embed=success_msg)
+                    except Exception as e:
+                        stdout = io.StringIO()
+                        value = stdout.getvalue()
+
+                        msg = discord.Embed(color=0xff0000, description=f"\n:inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:]).replace('```python', '').replace('```', '')}\n```\n:outbox_tray: Выходные данные:\n```python\n{value}{traceback.format_exc()}```".replace(self.http.token, '•' * len(self.http.token)))
+                        msg.set_author(name='Интерпретатор Python кода.')
+                        msg.set_footer(icon_url=icons['error'],
+                            text=f'Интерпретация не удалась - Python {python_version()} | {platform.system()}')
+                        return await self.channel.send(embed=msg)
                     else:
-                        success_msg = discord.Embed(color=0x00ff00, description=f":inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:]).replace('```python', '').replace('```', '')}```\n\n:outbox_tray: Выходные данные:\n```python\n{value}{function}```".replace(self.http.token, '•' * len(self.http.token)))
-                        success_msg.set_author(name='Интерпретатор Python кода.')
-                        success_msg.set_footer(icon_url=icons['successful'],
-                            text=f'Интерпретация успешно завершена - Python {python_version()} | {platform.system()}')
-                        return await self.channel.send(embed=success_msg)
+                        value = stdout.getvalue()
+                        if function is None:
+                            if not value:
+                                value = 'None'
+                            success_msg = discord.Embed(color=0x00ff00, description=f":inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:]).replace('```python', '').replace('```', '')}```\n\n:outbox_tray: Выходные данные:\n```python\n{value}```".replace(self.http.token, '•' * len(self.http.token)))
+                            success_msg.set_author(name='Интерпретатор Python кода.')
+                            success_msg.set_footer(icon_url=icons['successful'],
+                                text=f'Интерпретация успешно завершена - Python {python_version()} | {platform.system()}')
+                            return await self.channel.send(embed=success_msg)
+                        else:
+                            success_msg = discord.Embed(color=0x00ff00, description=f":inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:]).replace('```python', '').replace('```', '')}```\n\n:outbox_tray: Выходные данные:\n```python\n{value}{function}```".replace(self.http.token, '•' * len(self.http.token)))
+                            success_msg.set_author(name='Интерпретатор Python кода.')
+                            success_msg.set_footer(icon_url=icons['successful'],
+                                text=f'Интерпретация успешно завершена - Python {python_version()} | {platform.system()}')
+                            return await self.channel.send(embed=success_msg)
 
             self.loop.create_task(_execution())
 
