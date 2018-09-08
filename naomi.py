@@ -1101,11 +1101,17 @@ class Bot(discord.Client):
             if not self.permissions.manage_roles and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
             if not self.bot_permissions.manage_roles: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
 
-            target = Data.member.get(arg[1], self.guild)
+            target = await self.guild.create_role('NaomiMute')
+
+            target_member = discord.utils.get(self.guild.members, name=arg[1])
+
+            if target_member is None:
 
             try:
                 for textchannel in self.guild.text_channels:
                     await textchannel.set_permissions(target, read_messages=True, send_messages=False)
+
+                await target_member.add_roles(target)
             except discord.errors.InvalidArgument:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Не удалось выполнить команду.', icon_url=icons['error']))
             except discord.errors.Forbidden:
@@ -1127,11 +1133,20 @@ class Bot(discord.Client):
             if not self.permissions.manage_roles and self.author.id not in self._bot['admins']: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У вас недостаточно прав.', icon_url=icons['error']))
             if not self.bot_permissions.manage_roles: return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня недостаточно прав.', icon_url=icons['error']))
 
-            target = Data.member.get(arg[1], self.guild)
+            
+            target = discord.utils.get(self.guild.members, name=arg[1])
+
+            if target is None:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{self.author.mention}, указанный пользователь не найден.', icon_url=icons['error']))
+
+            mute_role = discord.utils.get(self.guild.roles, name='NaomiMute')
+
+            if mute_role is None:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{self.author.mention}, на этом сервере еще никого не заглушили.', icon_url=icons['error']))
 
             try:
-                for textchannel in self.guild.text_channels:
-                    await textchannel.set_permissions(target, overwrite=None)
+                await target.remove_roles(mute_role)
+
             except discord.errors.Forbidden:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='У меня нет прав.', icon_url=icons['error']))
             else:
