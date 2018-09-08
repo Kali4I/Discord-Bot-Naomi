@@ -121,7 +121,7 @@ class Bot(discord.Client):
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text='Вы не можете выполнять данную команду.', icon_url=icons['error']))
 
             async def _execution():
-                async with channel.typing():
+                async with self.channel.typing():
                     env = {
                         'channel': self.channel,
                         'author': self.author,
