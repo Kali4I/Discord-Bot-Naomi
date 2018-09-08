@@ -94,7 +94,7 @@ class Bot(discord.Client):
             return False
 
         if discord.utils.get(self.guild.members, name=self.user.name).mentioned_in(self.message):
-            self.message.add_reaction('❔')
+            await self.message.add_reaction('❔')
 
         try:
             self.permissions = self.author.permissions_in(self.channel)
