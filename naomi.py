@@ -140,7 +140,7 @@ class Bot(discord.Client):
                     with redirect_stdout(stdout):
                         function = await virtexec()
 
-                _input_output = f'''
+                    _input_output = f'''
 :inbox_tray: Входные данные:
 ```python
 {arg[1:]}
@@ -153,7 +153,7 @@ class Bot(discord.Client):
                 except Exception as e:
                     stdout = io.StringIO()
                     value = stdout.getvalue()
-                    
+
                     _input_output_trace = f'''
 :inbox_tray: Входные данные:
 ```python
