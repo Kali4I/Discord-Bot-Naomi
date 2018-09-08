@@ -152,12 +152,13 @@ class Bot(discord.Client):
                 else:
                     value = stdout.getvalue()
                     if function is None:
-                        if value:
-                            success_msg = discord.Embed(color=0x00ff00, description=f":inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:]).replace('```python', '').replace('```', '')}```\n\n:outbox_tray: Выходные данные:\n```python\n{value}```".replace(self.http.token, '•' * len(self.http.token)))
-                            success_msg.set_author(name='Интерпретатор Python кода.')
-                            success_msg.set_footer(icon_url=icons['successful'],
-                                text=f'Интерпретация успешно завершена - Python {python_version()} | {platform.system()}')
-                            return await self.channel.send(embed=success_msg)
+                        if not value:
+                            value = 'None'
+                        success_msg = discord.Embed(color=0x00ff00, description=f":inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:]).replace('```python', '').replace('```', '')}```\n\n:outbox_tray: Выходные данные:\n```python\n{value}```".replace(self.http.token, '•' * len(self.http.token)))
+                        success_msg.set_author(name='Интерпретатор Python кода.')
+                        success_msg.set_footer(icon_url=icons['successful'],
+                            text=f'Интерпретация успешно завершена - Python {python_version()} | {platform.system()}')
+                        return await self.channel.send(embed=success_msg)
                     else:
                         success_msg = discord.Embed(color=0x00ff00, description=f":inbox_tray: Входные данные:\n```python\n{' '.join(arg[1:]).replace('```python', '').replace('```', '')}```\n\n:outbox_tray: Выходные данные:\n```python\n{value}{function}```".replace(self.http.token, '•' * len(self.http.token)))
                         success_msg.set_author(name='Интерпретатор Python кода.')
