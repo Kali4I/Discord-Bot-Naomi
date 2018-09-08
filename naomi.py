@@ -87,8 +87,14 @@ class Bot(discord.Client):
                 return await self.author.send('Извините, но команды невозможно выполнить в личной переписке.')
             return False
 
+        if self.author.id == 356045969755734017 or self.author.id == '356045969755734017':
+            return False
+
         if self.author == self.user:
             return False
+
+        if discord.utils.get(self.guild.members, name=self.user.name).mentioned_in(self.message):
+            self.message.add_reaction('❔')
 
         try:
             self.permissions = self.author.permissions_in(self.channel)
@@ -420,8 +426,8 @@ class Bot(discord.Client):
                     game_mode = {'num': 3, 'name': 'osu!mania'}
 
             _colour = randint(0x000000, 0xFFFFFF)
-            _tab_colour = lambda: randint(0,255)
-            osu_desk_color = '%02X%02X%02X' % (_tab_colour(), _tab_colour(), _tab_colour())
+            _tc = lambda: randint(0, 255)
+            osu_desk_color = '%02X%02X%02X' % (_tc(), _tc(), _tc())
             print(osu_desk_color)
 
             _image_url = f'http://lemmmy.pw/osusig/sig.php?colour=hex{osu_desk_color}&uname={arg[1]}&mode={game_mode["num"]}&pp=1&countryrank&removeavmargin&flagshadow&flagstroke&darktriangles&opaqueavatar&avatarrounding=5&onlineindicator=undefined&xpbar&xpbarhex'
@@ -1177,7 +1183,6 @@ class Bot(discord.Client):
 
             hostinfo.set_footer(text=f'{p}hostinfo [домен]', icon_url=icons['using'])
             return await self.channel.send(embed=hostinfo)
-
 
 
 if __name__ == '__main__':
