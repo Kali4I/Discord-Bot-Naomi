@@ -1240,7 +1240,7 @@ class Bot(discord.Client):
             responseJson = json.loads(request.getresponse().read().decode('utf-8'))
             response = responseJson['result']['fulfillment']['speech']
 
-            return await channel.send(response)
+            return await self.channel.send(response)
 
 
 if __name__ == '__main__':
