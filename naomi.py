@@ -310,6 +310,7 @@ class Bot(discord.Client):
 `{p}status   `| Статистика бота;
 `{p}msg      `| Отправка сообщения;
 `{p}hostinfo `| Информация о домене;
+`{p}talk     `| Общение с ботом;
 '''
             help_adm = f'''
 `{p}ban      `| Забанить пользователя;
@@ -1218,6 +1219,27 @@ class Bot(discord.Client):
 
             hostinfo.set_footer(text=f'{p}hostinfo [домен]', icon_url=icons['using'])
             return await self.channel.send(embed=hostinfo)
+
+        if self.content.startswith(f'{p}talk'):
+            self.content = self.content.replace('  ', ' ')
+            arg = self.content.split(' ')
+            if arg[0] != f'{p}talk':
+                return False
+
+            try: arg[1:]
+            except:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{p}talk [сообщение] | Dialogflow', icon_url=icons['using']))
+            
+            ai = apiai.ApiAI(os.getenv('TALK_SERVICE_TOKEN'))
+
+            request = ai.text_request()
+            request.lang = 'ru'
+            request.session_id = os.getenv('TALK_SERVICE_SESSION_ID')
+            request.query = ' '.join(arg[1:])
+            responseJson = json.loads(request.getresponse().read().decode('utf-8'))
+            response = responseJson['result']['fulfillment']['speech']
+
+            return await channel.send(response)
 
 
 if __name__ == '__main__':
