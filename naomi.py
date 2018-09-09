@@ -1227,7 +1227,7 @@ class Bot(discord.Client):
             if arg[0] != f'{p}talk':
                 return False
 
-            try: arg[1:]
+            try: arg[1]
             except:
                 return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{p}talk [сообщение] | Dialogflow', icon_url=icons['using']))
             
