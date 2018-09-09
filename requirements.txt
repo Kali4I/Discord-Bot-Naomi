@@ -8,3 +8,4 @@ requests
 speedtest-cli
 python-whois
 datetime
+apiai

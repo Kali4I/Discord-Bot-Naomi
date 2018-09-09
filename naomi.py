@@ -10,6 +10,7 @@ import asyncio
 import psutil
 import whois
 import nekos
+import apiai
 import time
 import sys
 import os
