@@ -1240,7 +1240,14 @@ class Bot(discord.Client):
             responseJson = json.loads(request.getresponse().read().decode('utf-8'))
             response = responseJson['result']['fulfillment']['speech']
 
-            return await self.channel.send(response)
+            if response:
+                return await self.channel.send(response)
+            else:
+                no_answer = choice(['Не знаю, как ответить...',
+                                    'Полагаю, у меня нет ответа.',
+                                    '(Как же ответить, как же ответить...)',
+                                    'Извиняюсь, но я не знаю, как ответить...'])
+                return await self.channel.send(no_answer)
 
 
 if __name__ == '__main__':
