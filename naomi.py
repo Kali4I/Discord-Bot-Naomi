@@ -100,9 +100,6 @@ class Bot(discord.Client):
                 return await self.author.send('Извините, но команды невозможно выполнить в личной переписке.')
             return False
 
-        if self.author.id in blocked['users']:
-            return await self.author.send('Вам был ограничен доступ к моему функционалу.')
-
         if self.author.bot:
             return False
 
@@ -123,6 +120,8 @@ class Bot(discord.Client):
             p = self._bot['cmd-prefix']
 
 
+        if self.author.id in blocked['users'] and self.message.startswith(p):
+            return await self.author.send('Вам был ограничен доступ к моему функционалу.')
 
 
         if self.content.startswith(f'{p}execute'):
