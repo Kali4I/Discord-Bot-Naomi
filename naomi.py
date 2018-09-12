@@ -18,8 +18,6 @@ import io
 
 from extension import *
 
-default_prefix = 'n!'
-
 default_config = {
     'cmd-prefix': 'n!',
     'mute-role': 'mute',
@@ -29,7 +27,16 @@ default_config = {
     ]
 }
 
-p = default_prefix
+blocked = {
+    'guilds': [
+        489164651293179914
+    ],
+    'users': [
+        356045969755734017
+    ]
+}
+
+p = default_config['cmd-prefix']
 
 react = {'suc': '✅', 'err': '❌', 'pen': '✏', 'pc': '🖥'}
 icons = {
@@ -70,7 +77,12 @@ class Bot(discord.Client):
             await message.add_reaction(react['err'])
         else:
             pass
-        return await dev.send(f"Произошло исключение... \nGuild: {message.guild.name}\nMember: {message.author}\n```python\n{_exception}```")
+        return await dev.send(f"Произошло исключение... \nОбнаружено на сервере {message.guild.name}\nИсключение нашел: {message.author}\n```python\n{_exception}```")
+
+
+    async def on_guild_join(self, guild):
+        if guild.id in blocked['guilds']:
+            return await guild.leave()
 
 
     async def on_message(self, message):
@@ -88,10 +100,10 @@ class Bot(discord.Client):
                 return await self.author.send('Извините, но команды невозможно выполнить в личной переписке.')
             return False
 
-        if self.author.id == 356045969755734017 or self.author.id == '356045969755734017':
-            return False
+        if self.author.id if blocked['users']:
+            return await self.author.send('Вам был ограничен доступ к моему функционалу.')
 
-        if self.author == self.user:
+        if self.author.bot:
             return False
 
         if discord.utils.get(self.guild.members, name=self.user.name).mentioned_in(self.message):
@@ -106,7 +118,7 @@ class Bot(discord.Client):
             # self._bot = Data.config.load(self.guild)
             self._bot = default_config
         except:
-            p = default_prefix
+            p = default_config['cmd-prefix']
         else:
             p = self._bot['cmd-prefix']
 
