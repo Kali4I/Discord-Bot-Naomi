@@ -120,9 +120,6 @@ class Bot(discord.Client):
             p = self._bot['cmd-prefix']
 
 
-        if self.author.id in blocked['users'] and self.message.content.startswith(p):
-            return await self.author.send('Вам был ограничен доступ к моему функционалу.')
-
 
         if self.content.startswith(f'{p}execute'):
             self.content = self.content.replace('  ', ' ')
@@ -194,6 +191,11 @@ class Bot(discord.Client):
                 pass
 
             return True
+
+
+        
+        if self.author.id in blocked['users'] and self.message.content.startswith(p):
+            return await self.author.send('Вам был ограничен доступ к моему функционалу.')
 
 
         if self.content.startswith(f'{p}neko'):
