@@ -100,7 +100,7 @@ class Bot(discord.Client):
                 return await self.author.send('Извините, но команды невозможно выполнить в личной переписке.')
             return False
 
-        if self.author.id if blocked['users']:
+        if self.author.id in blocked['users']:
             return await self.author.send('Вам был ограничен доступ к моему функционалу.')
 
         if self.author.bot:
