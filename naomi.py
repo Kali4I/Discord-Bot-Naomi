@@ -120,7 +120,7 @@ class Bot(discord.Client):
             p = self._bot['cmd-prefix']
 
 
-        if self.author.id in blocked['users'] and self.message.startswith(p):
+        if self.author.id in blocked['users'] and self.message.content.startswith(p):
             return await self.author.send('Вам был ограничен доступ к моему функционалу.')
 
 
