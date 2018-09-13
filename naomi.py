@@ -1301,7 +1301,7 @@ class Bot(discord.Client):
 
             _info.set_footer(text=f'{p}userinfo [@пользователь]', icon_url=icons['using'])
 
-            return await channel.send(embed=_info)
+            return await message.channel.send(embed=_info)
 
 
 if __name__ == '__main__':
