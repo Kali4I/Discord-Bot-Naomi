@@ -29,10 +29,10 @@ default_config = {
 
 blocked = {
     'guilds': [
-        489164651293179914
+        # 489164651293179914
     ],
     'users': [
-        356045969755734017
+        # 356045969755734017
     ]
 }
 
@@ -69,14 +69,18 @@ class Bot(discord.Client):
         message = args[0]
         _exception = traceback.format_exc()
         dev = discord.utils.get(client.users, id=297421244402368522)
-        bot_permissions = discord.utils.get(message.guild.members, name=self.user.name).permissions_in(message.channel)
-
-        if bot_permissions.send_messages:
-            await message.channel.send('Во время выполнения произошла ошибка.\nНе стоит беспокоиться, она отправлена разработчику и вскоре он ею займется!')
-        elif bot_permissions.add_reactions:
-            await message.add_reaction(react['err'])
-        else:
+        
+        try:
+            bot_permissions = discord.utils.get(message.guild.members, name=self.user.name).permissions_in(message.channel)
+            if bot_permissions.send_messages:
+                await message.channel.send('Во время выполнения произошла ошибка.\nНе стоит беспокоиться, она отправлена разработчику и вскоре он ею займется!')
+            elif bot_permissions.add_reactions:
+                await message.add_reaction(react['err'])
+            else:
+                pass
+        except:
             pass
+
         return await dev.send(f"Произошло исключение... \nОбнаружено на сервере {message.guild.name}\nИсключение нашел: {message.author}\n```python\n{_exception}```")
 
 
@@ -1234,6 +1238,8 @@ class Bot(discord.Client):
             hostinfo.set_footer(text=f'{p}hostinfo [домен]', icon_url=icons['using'])
             return await self.channel.send(embed=hostinfo)
 
+
+
         if self.content.startswith(f'{p}talk'):
             self.content = self.content.replace('  ', ' ')
             arg = self.content.split(' ')
@@ -1261,6 +1267,37 @@ class Bot(discord.Client):
                                     '(Как же ответить, как же ответить...)',
                                     'Извиняюсь, но я не знаю, как ответить...'])
                 return await self.channel.send(no_answer)
+
+
+
+        if self.content.startswith(f'{p}userinfo'):
+            self.content = self.content.replace('  ', ' ')
+            arg = self.content.split(' ')
+            if arg[0] != f'{p}userinfo':
+                return False
+
+            try: arg[1]
+            except:
+                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{p}userinfo [@пользователь]', icon_url=icons['using']))
+
+            target_m = discord.utils.get(self.guild.members, mention=arg[1])
+
+            target_status = target_m.status.replace('online', 'В сети').replace('idle', 'Не активен').replace('dnd', 'Не беспокоить').replace('offline', 'Не в сети')
+
+            if target.nick is not None:
+                _title = '%s - %s' % (target_m.name, target_status)
+            else:
+                _title = '%s (%s) - %s' % (target_m.nick, target_m.name, target_status)
+
+            _info = discord.Embed(color=0x06A9ED, title=_title, inline=True)
+            _info.add_field(name='Присоединился к серверу:', value=target_m.joined_at, inline=True)
+            _info.add_field(name='Аккаунт создан:', value=target_m.created_at, inline=True)
+            _info.add_field(name='Является-ли ботом:', value=str(target_m.bot).replace('True', 'Да').replace('False', 'Нет'), inline=True)
+            _info.add_field(name='Высшая роль:', value=target_m.top_role, inline=True)
+            _info.add_field(name='Цвет никнейма (hex):', value=target_m.color, inline=True)
+            _info.add_field(name='Анимированная-ли аватарка:', value=str(target_m.bot).replace('True', 'Да').replace('False', 'Нет'), inline=True)
+            
+            _info.set_thumbnail(url=target_m.avatar_url)
 
 
 if __name__ == '__main__':
