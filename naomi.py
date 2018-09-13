@@ -329,15 +329,13 @@ class Bot(discord.Client):
 `{p}msg      `| Отправка сообщения;
 `{p}hostinfo `| Информация о домене;
 `{p}talk     `| Общение с ботом;
+`{p}userinfo `| Информация об аккаунте;
 '''
             help_adm = f'''
 `{p}ban      `| Забанить пользователя;
 `{p}unban    `| Разбанить пользователя;
 `{p}banlist  `| Банлист сервера;
 `{p}kick     `| Выгнать пользователя;
-`{p}mute     `| [BETA] Приглушить пользователя;
-`{p}mutethere`| [BETA] Приглушить пользователя в этом канале;
-`{p}unmute   `| [BETA] Убрать приглушение с пользователя;
 `{p}say      `| Отправка сообщения от имени бота;
 '''
 
@@ -1101,6 +1099,8 @@ class Bot(discord.Client):
 
 
         if self.content.startswith(f'{p}mutethere'):
+            return False # Disabled
+
             self.content = self.content.replace('  ', ' ')
             arg = self.content.split(' ')
             if arg[0] != f'{p}mutethere':
@@ -1126,6 +1126,8 @@ class Bot(discord.Client):
 
 
         if self.content.startswith(f'{p}mute'):
+            return False # Disabled
+
             self.content = self.content.replace('  ', ' ')
             arg = self.content.split(' ')
             if arg[0] != f'{p}mute':
@@ -1160,6 +1162,8 @@ class Bot(discord.Client):
 
 
         if self.content.startswith(f'{p}unmute'):
+            return False # Disabled
+
             self.content = self.content.replace('  ', ' ')
             arg = self.content.split(' ')
             if arg[0] != f'{p}unmute':
