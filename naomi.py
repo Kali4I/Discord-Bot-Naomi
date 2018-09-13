@@ -1295,7 +1295,7 @@ class Bot(discord.Client):
             _info.add_field(name='Является-ли ботом:', value=str(target_m.bot).replace('True', 'Да').replace('False', 'Нет'), inline=True)
             _info.add_field(name='Высшая роль:', value=target_m.top_role, inline=True)
             _info.add_field(name='Цвет никнейма (hex):', value=target_m.color, inline=True)
-            _info.add_field(name='Анимирована-ли аватарка:', value=str(target_m.is_avatar_animated).replace('True', 'Да').replace('False', 'Нет'), inline=True)
+            _info.add_field(name='Анимирована-ли аватарка:', value=str(target_m.is_avatar_animated()).replace('True', 'Да').replace('False', 'Нет'), inline=True)
             
             _info.set_thumbnail(url=target_m.avatar_url)
 
