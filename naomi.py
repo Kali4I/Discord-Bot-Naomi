@@ -1278,13 +1278,13 @@ class Bot(discord.Client):
 
             try: arg[1]
             except:
-                return await self.channel.send(embed=discord.Embed(color=0xff0000).set_footer(text=f'{p}userinfo [@пользователь]', icon_url=icons['using']))
+                arg.append(message.author)
 
             target_m = discord.utils.get(self.guild.members, mention=arg[1])
 
-            target_status = target_m.status.replace('online', 'В сети').replace('idle', 'Не активен').replace('dnd', 'Не беспокоить').replace('offline', 'Не в сети')
+            target_status = str(target_m.status).replace('online', 'В сети').replace('idle', 'Не активен').replace('dnd', 'Не беспокоить').replace('offline', 'Не в сети')
 
-            if target.nick is not None:
+            if target.nick is None:
                 _title = '%s - %s' % (target_m.name, target_status)
             else:
                 _title = '%s (%s) - %s' % (target_m.nick, target_m.name, target_status)
@@ -1298,6 +1298,10 @@ class Bot(discord.Client):
             _info.add_field(name='Анимированная-ли аватарка:', value=str(target_m.bot).replace('True', 'Да').replace('False', 'Нет'), inline=True)
             
             _info.set_thumbnail(url=target_m.avatar_url)
+
+            _info.set_footer(text=f'{p}userinfo [@пользователь]', icon_url=icons['using'])
+
+            return await channel.send(embed=_info)
 
 
 if __name__ == '__main__':
