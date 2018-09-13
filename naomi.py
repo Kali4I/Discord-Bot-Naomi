@@ -1278,13 +1278,13 @@ class Bot(discord.Client):
 
             try: arg[1]
             except:
-                arg.append(message.author)
+                arg.append(message.author.mention)
 
             target_m = discord.utils.get(self.guild.members, mention=arg[1])
 
             target_status = str(target_m.status).replace('online', 'В сети').replace('idle', 'Не активен').replace('dnd', 'Не беспокоить').replace('offline', 'Не в сети')
 
-            if target.nick is None:
+            if target_m.nick is None:
                 _title = '%s - %s' % (target_m.name, target_status)
             else:
                 _title = '%s (%s) - %s' % (target_m.nick, target_m.name, target_status)
